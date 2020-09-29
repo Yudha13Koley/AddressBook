@@ -176,4 +176,34 @@ public void getContactsForState(String str) {
 		System.out.println("Name : "+c.getFirstName()+" "+c.getLastName()+" State :"+c.getState());
 	}
 }
+public void getCityPersonDir(Map<String, LinkedList> cityPersonDir) {
+	Iterator<Contact> itr=contact.iterator();
+	Contact c=new Contact();
+	while(itr.hasNext())
+	{
+	c=itr.next();
+	if(cityPersonDir.containsKey(c.getCity()))
+		cityPersonDir.get(c.getCity()).add(c.getFirstName()+" "+c.getLastName());
+	else {
+	cityPersonDir.put(c.getCity(),new LinkedList<String>());
+	cityPersonDir.get(c.getCity()).add(c.getFirstName()+" "+c.getLastName());
+	}
+	}
+	
+}
+public void getStatePersonDir(Map<String, LinkedList> statePersonDir) {
+	Iterator<Contact> itr=contact.iterator();
+	Contact c=new Contact();
+	while(itr.hasNext())
+	{
+	c=itr.next();
+	if(statePersonDir.containsKey(c.getState()))
+		statePersonDir.get(c.getState()).add(c.getFirstName()+" "+c.getLastName());
+	else {
+	statePersonDir.put(c.getState(),new LinkedList<String>());
+	statePersonDir.get(c.getState()).add(c.getFirstName()+" "+c.getLastName());
+	}
+	}
+	
+}
 }

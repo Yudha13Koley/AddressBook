@@ -2,8 +2,10 @@ package com.training.AddressBookDirectory;
 
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import com.training.AddressBook.AddressBook;
+import com.training.Contact.Contact;
 
 public class AddressBookDirectory {
 private Map<String,AddressBook>addressBookDirectory=new HashMap<>();
@@ -60,4 +62,36 @@ public void searchByCity(Scanner sc) {
 		    entry.getValue().getContactsForState(str);
 		}
 }
+	public void dirCityPerson() {
+		Map<String,LinkedList>cityPersonDir=new HashMap<>();
+		for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
+		   
+		    entry.getValue().getCityPersonDir(cityPersonDir);
+		}
+		for (Map.Entry<String,LinkedList> entry : cityPersonDir.entrySet()) {
+			   System.out.println(entry.getKey());
+			   System.out.println("");
+			   Iterator<String> itr=entry.getValue().iterator();
+			   while(itr.hasNext())
+			   {
+				   System.out.println(itr.next());
+			   }
+		}
+	}
+	public void dirStatePerson() {
+		Map<String,LinkedList>statePersonDir=new HashMap<>();
+		for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
+		   
+		    entry.getValue().getStatePersonDir(statePersonDir);
+		}
+		for (Map.Entry<String,LinkedList> entry : statePersonDir.entrySet()) {
+			   System.out.println(entry.getKey());
+			   System.out.println("");
+			   Iterator<String> itr=entry.getValue().iterator();
+			   while(itr.hasNext())
+			   {
+				   System.out.println(itr.next());
+			   }
+		}
+	}
 }
