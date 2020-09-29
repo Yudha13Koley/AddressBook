@@ -19,12 +19,12 @@ public void printDirectory(){
 	}	
 }
 public void accessDirectory(String str,Scanner sc) {
-	while(true) {
-	System.out.println("Enter 1 to add contact in this directory : ");
-	System.out.println("Enter 2 to edit contact in this directory : ");
-	System.out.println("Enter 3 to delete contact in this directory : ");
-	System.out.println("Enter 4 to print contact in this directory : ");
-	System.out.println("Enter 5 to search contact in this directory : ");
+	loop : while(true) {
+	System.out.println("Enter 1 to add contact in this Book : ");
+	System.out.println("Enter 2 to edit contact in this Book : ");
+	System.out.println("Enter 3 to delete contact in this Book : ");
+	System.out.println("Enter 4 to print contact in this Book : ");
+	System.out.println("Enter 5 to search contact in this Book : ");
 	System.out.println("Enter 6 to exit : ");
 	String choice=sc.next();
 	switch(Integer.parseInt(choice)) {
@@ -38,6 +38,8 @@ public void accessDirectory(String str,Scanner sc) {
 	break;
 	case 4:addressBookDirectory.get(str).printContacts();
 	break;
+	case 6:addressBookDirectory.get(str).printContacts();
+	break loop;
 	default: System.out.println("Select From The Menu !");
 	}
 }

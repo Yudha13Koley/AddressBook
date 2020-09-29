@@ -7,10 +7,18 @@ public class AddressBook {
 	private List<Contact>contact=new LinkedList<>();
 	public void addContact(Scanner sc) {
 		Contact c=new Contact();
+		loop2 :while(true) {
 		System.out.println("Enter First Name :");
-		c.setFirstName(sc.next());
+		String fname=sc.next();
 		System.out.println("Enter Last Name :");
-		c.setLastName(sc.next());
+		String lname=sc.next();
+		c.setLastName(lname);
+		c.setFirstName(fname);
+		boolean b=isNamePresent(fname,lname);
+		if(b==false)
+			break loop2;
+		System.out.println("Contact Already Present !Enter Unique Contact !");
+		}
 		System.out.println("Enter Address :");
 		c.setAddress(sc.next());
 		System.out.println("Enter City Name :");
@@ -41,7 +49,7 @@ public class AddressBook {
 	   System.out.println("Search Contact to Edit :");
 	   Contact c=searchContactsByFirstName(sc);
 	   System.out.println(c);
-	   for(;;) {
+	   loop1 :for(;;) {
 			System.out.println("To Edit this Contact : ");
 			System.out.println("Press 1 to Edit First Name :");
 			System.out.println("Press 2 to Edit Last Name :");
@@ -81,9 +89,8 @@ public class AddressBook {
 			break;
 			case 9:System.out.println("Edited Contact :");
 				System.out.println(c);
-				System.exit(0);
-			break;
-				default:System.out.println("Select From Menu !");
+				break loop1;
+			default:System.out.println("Select From Menu !");
 			}
 	   }
    }
@@ -106,6 +113,25 @@ public class AddressBook {
 		return c;
 		else
 			return searchContactsByFirstName(sc);
+   }
+   public boolean isNamePresent(String str,String str2) {
+	   if(contact.size()==0)
+		   return false;
+	   else {
+	   Iterator<Contact> itr=contact.iterator();
+		Contact c=new Contact();
+		boolean b = false;
+		while(itr.hasNext())
+		{
+		c=itr.next();
+		if(c.getFirstName().equals(str) && c.getLastName().equals(str2))
+		{
+		b=true;
+		break;
+		}
+		}
+		return b; 
+   }
    }
    public void deleteContact(Scanner sc) {
 	   System.out.println("Enter the First Name of the contact you want to Delete :");
