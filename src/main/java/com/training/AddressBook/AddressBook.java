@@ -5,7 +5,7 @@ import com.training.Contact.Contact;
 
 public class AddressBook {
 	private List<Contact>contact=new LinkedList<>();
-	public void addConatct(Scanner sc) {
+	public void addContact(Scanner sc) {
 		Contact c=new Contact();
 		System.out.println("Enter First Name :");
 		c.setFirstName(sc.next());
@@ -27,11 +27,15 @@ public class AddressBook {
 		System.out.println("Contact Saved !");
 	}
 	public void printContacts() {
+		if(contact.size()==0)
+			System.out.println("List is Empty !");
+		else {
 		Iterator<Contact> itr=contact.iterator();
 		while(itr.hasNext())
 		{
 			System.out.println(itr.next());
 		}
+	}
 	}
    public void editContact(Scanner sc) {
 	   System.out.println("Search Contact to Edit :");
@@ -102,5 +106,28 @@ public class AddressBook {
 		return c;
 		else
 			return searchContactsByFirstName(sc);
+   }
+   public void deleteContact(Scanner sc) {
+	   System.out.println("Enter the First Name of the contact you want to Delete :");
+	   String fname=sc.next();
+		Iterator<Contact> itr=contact.iterator();
+		boolean b = false;
+		Contact c=new Contact();
+		while(itr.hasNext())
+		{
+			c=itr.next();
+		if(c.getFirstName().equals(fname))
+		{
+	    contact.remove(c);
+		b=true;
+		System.out.println("Contact Deleted !");
+		printContacts();
+		break;
+		}
+		}
+		if(b!=true)
+		{System.out.println("No such First Name :");
+		 deleteContact(sc);
+		}
    }
 }

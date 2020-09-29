@@ -9,10 +9,11 @@ public class AddressBookMain {
 		System.out.println("Welcome To Address Book Program !");
 		AddressBook A1=new AddressBook();
 		Scanner sc=new Scanner(System.in);
-		A1.addConatct(sc);
-		A1.addConatct(sc);
-		A1.addConatct(sc);
-		A1.editContact(sc);
+		A1.addContact(sc);
+		A1.addContact(sc);
+		A1.addContact(sc);
+		A1.deleteContact(sc);
+		
 		sc.close();
 	
 	}
