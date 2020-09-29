@@ -13,7 +13,9 @@ public class AddressBookMain {
 			System.out.println("Enter 1 to Add Address Book in this directory : ");
 			System.out.println("Enter 2 to Access Address Book in this directory : ");
 			System.out.println("Enter 3 to Print Address Books in this directory : ");
-			System.out.println("Enter 4 to exit : ");
+			System.out.println("Enter 4 to search contacts in dictionary by City : ");
+			System.out.println("Enter 5 to search contacts in dictionary by State : ");
+			System.out.println("Enter 6 to exit : ");
 			String choice=sc.next();
 			switch(Integer.parseInt(choice)) {
 			case 1:A1.addBooksInDirectory(sc);
@@ -24,7 +26,11 @@ public class AddressBookMain {
 			    break;
 			case 3:A1.printDirectory();
 				break;
-			case 4:sc.close();
+			case 4:A1.searchByCity(sc);
+			break;
+			case 5:A1.searchByState(sc);
+			break;
+			case 6:sc.close();
 				System.exit(0);
 			default: System.out.println("Select From The Menu !");
 			}

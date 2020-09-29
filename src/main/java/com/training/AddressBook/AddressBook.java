@@ -156,4 +156,24 @@ public class AddressBook {
 		 deleteContact(sc);
 		}
    }
+public void getContactsForCity(String Str) {
+	Iterator<Contact> itr=contact.iterator();
+	Contact c=new Contact();
+	while(itr.hasNext())
+	{
+	c=itr.next();
+	if(c.getCity().equals(Str))
+		System.out.println("Name : "+c.getFirstName()+" "+c.getLastName()+" City :"+c.getCity());
+	}
+}
+public void getContactsForState(String str) {
+	Iterator<Contact> itr=contact.iterator();
+	Contact c=new Contact();
+	while(itr.hasNext())
+	{
+	c=itr.next();
+	if(c.getState().equals(str))
+		System.out.println("Name : "+c.getFirstName()+" "+c.getLastName()+" State :"+c.getState());
+	}
+}
 }

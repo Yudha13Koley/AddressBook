@@ -44,4 +44,20 @@ public void accessDirectory(String str,Scanner sc) {
 	}
 }
 }
+public void searchByCity(Scanner sc) {
+	System.out.println("Enter the name of the City :");
+	String str=sc.next();
+	for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
+	    System.out.println(entry.getKey());
+	    entry.getValue().getContactsForCity(str);
+	}
+	}
+	public void searchByState(Scanner sc) {
+		System.out.println("Enter the name of the State :");
+		String str=sc.next();
+		for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
+		    System.out.println(entry.getKey());
+		    entry.getValue().getContactsForState(str);
+		}
+}
 }
