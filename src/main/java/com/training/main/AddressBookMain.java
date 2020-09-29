@@ -12,7 +12,7 @@ public class AddressBookMain {
 		A1.addContact(sc);
 		A1.addContact(sc);
 		A1.addContact(sc);
-		A1.deleteContact(sc);
+		A1.addContact(sc);
 		
 		sc.close();
 	
