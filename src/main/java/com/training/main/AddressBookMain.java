@@ -33,7 +33,9 @@ public class AddressBookMain {
 			case 5:A1.searchByState(sc);
 			break;
 			case 6:A1.dirCityPerson();
+			break;
 			case 7:A1.dirStatePerson();
+			break;
 			case 8:sc.close();
 				System.exit(0);
 			default: System.out.println("Select From The Menu !");

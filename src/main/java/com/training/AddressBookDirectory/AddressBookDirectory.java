@@ -71,11 +71,14 @@ public void searchByCity(Scanner sc) {
 		for (Map.Entry<String,LinkedList> entry : cityPersonDir.entrySet()) {
 			   System.out.println(entry.getKey());
 			   System.out.println("");
+			   int counter=0;
 			   Iterator<String> itr=entry.getValue().iterator();
 			   while(itr.hasNext())
 			   {
 				   System.out.println(itr.next());
+				   counter++;
 			   }
+			   System.out.println("No of Contacts Found : "+counter);
 		}
 	}
 	public void dirStatePerson() {
@@ -87,11 +90,14 @@ public void searchByCity(Scanner sc) {
 		for (Map.Entry<String,LinkedList> entry : statePersonDir.entrySet()) {
 			   System.out.println(entry.getKey());
 			   System.out.println("");
+			   int counter=0;
 			   Iterator<String> itr=entry.getValue().iterator();
 			   while(itr.hasNext())
 			   {
 				   System.out.println(itr.next());
+				   counter++;
 			   }
+			   System.out.println("No of Contacts Found : "+counter);
 		}
 	}
 }
