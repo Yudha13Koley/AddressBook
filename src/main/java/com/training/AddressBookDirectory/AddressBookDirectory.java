@@ -92,10 +92,42 @@ public void searchByCity(Scanner sc) {
 			   System.out.println("");
 		}
 	}
-	public void printSortedContacts() {
-		for(Map.Entry<String,AddressBook> entry:addressBookDirectory.entrySet()) {
-			System.out.println(entry.getKey());
-			entry.getValue().viewEntriesSortedByName();
+	public void printSortedContacts(Scanner sc) {
+		loop : while(true) {
+			System.out.println("Enter 1 to sort by Name :");
+			System.out.println("Enter 2 to sort by City :");
+			System.out.println("Enter 3 to sort by State :");
+			System.out.println("Enter 4 to sort by Zip :");
+			System.out.println("Enter 5 to Exit :");
+			String choice=sc.next();
+			switch(Integer.parseInt(choice)) {
+			case 1:for(Map.Entry<String,AddressBook> entry:addressBookDirectory.entrySet())
+			{
+				System.out.println(entry.getKey());
+				entry.getValue().viewEntriesSortedByName();
+			}
+			break;
+			case 2:for(Map.Entry<String,AddressBook> entry:addressBookDirectory.entrySet())
+			{
+				System.out.println(entry.getKey());
+				entry.getValue().viewEntriesSortedByCity();
+			}
+			break;
+			case 3:for(Map.Entry<String,AddressBook> entry:addressBookDirectory.entrySet())
+			{
+				System.out.println(entry.getKey());
+				entry.getValue().viewEntriesSortedByState();
+			}
+			break;
+			case 4:for(Map.Entry<String,AddressBook> entry:addressBookDirectory.entrySet())
+			{
+				System.out.println(entry.getKey());
+				entry.getValue().viewEntriesSortedByZip();
+			}
+			break;
+			case 5:break loop;
+			default:System.out.println("Select From Menu : ");
+			}
 		}
 	}
 }

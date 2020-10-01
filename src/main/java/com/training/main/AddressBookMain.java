@@ -13,11 +13,11 @@ public class AddressBookMain {
 			System.out.println("Enter 1 to Add Address Book in this directory : ");
 			System.out.println("Enter 2 to Access Address Book in this directory : ");
 			System.out.println("Enter 3 to Print Address Books in this directory : ");
-			System.out.println("Enter 4 to search contacts in dictionary by City : ");
-			System.out.println("Enter 5 to search contacts in dictionary by State : ");
-			System.out.println("Enter 6 to create City Person Directory : ");
-			System.out.println("Enter 7 to create State Person Directory : ");
-			System.out.println("Enter 8 to print contacts in the directory in sorted order by Name :");
+			System.out.println("Enter 4 to Search Contacts in dictionary by City : ");
+			System.out.println("Enter 5 to Search Contacts in dictionary by State : ");
+			System.out.println("Enter 6 to Create City Person Directory : ");
+			System.out.println("Enter 7 to Create State Person Directory : ");
+			System.out.println("Enter 8 to Sort Contacts in the directory :");
 			System.out.println("Enter 9 to exit : ");
 			String choice=sc.next();
 			switch(Integer.parseInt(choice)) {
@@ -37,7 +37,7 @@ public class AddressBookMain {
 			break;
 			case 7:A1.dirStatePerson();
 			break;
-			case 8:A1.printSortedContacts();
+			case 8:A1.printSortedContacts(sc);
 			break;
 			case 9:sc.close();
 				System.exit(0);

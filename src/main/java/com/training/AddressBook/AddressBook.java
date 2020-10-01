@@ -160,4 +160,13 @@ public void getStatePersonDir(Map<String, LinkedList<String>> statePersonDir) {
 public void viewEntriesSortedByName() {
 	contact.stream().sorted((c1,c2)->(c1.getFirstName()+c1.getLastName()).compareToIgnoreCase(c2.getFirstName()+c2.getLastName())).forEach(c->{System.out.println(c);});
 }
+public void viewEntriesSortedByCity() {
+	contact.stream().sorted((c1,c2)->c1.getCity().compareToIgnoreCase(c2.getCity())).forEach(c->{System.out.println(c);});	
+}
+public void viewEntriesSortedByState() {
+	contact.stream().sorted((c1,c2)->c1.getState().compareToIgnoreCase(c2.getState())).forEach(c->{System.out.println(c);});	
+	}
+public void viewEntriesSortedByZip() {
+	contact.stream().sorted((c1,c2)->c1.getZip().compareToIgnoreCase(c2.getZip())).forEach(c->{System.out.println(c);});
+}	
 }
