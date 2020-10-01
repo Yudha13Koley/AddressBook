@@ -36,8 +36,16 @@ public void accessDirectory(String str,Scanner sc) {
 	break;
 	case 3:addressBookDirectory.get(str).deleteContact(sc);
 	break;
-	case 5:System.out.println(addressBookDirectory.get(str).searchContactsByFirstName(sc));
-	break;
+	case 5:if(addressBookDirectory.get(str).getContact().size()==0)
+	{
+		System.out.println("Address Book is Empty !");
+		break;
+	}
+	else
+	{
+		System.out.println(addressBookDirectory.get(str).searchContactsByFirstName(sc));
+		break;
+	}
 	case 4:addressBookDirectory.get(str).printContacts();
 	break;
 	case 6:addressBookDirectory.get(str).printContacts();
@@ -63,41 +71,27 @@ public void searchByCity(Scanner sc) {
 		}
 }
 	public void dirCityPerson() {
-		Map<String,LinkedList>cityPersonDir=new HashMap<>();
+		Map<String,List>cityPersonDir=new HashMap<>();
 		for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
-		   
 		    entry.getValue().getCityPersonDir(cityPersonDir);
 		}
-		for (Map.Entry<String,LinkedList> entry : cityPersonDir.entrySet()) {
-			   System.out.println(entry.getKey());
+		for (Map.Entry<String,List> entry : cityPersonDir.entrySet()) {
+			   System.out.println("City : "+entry.getKey());
 			   System.out.println("");
-			   int counter=0;
-			   Iterator<String> itr=entry.getValue().iterator();
-			   while(itr.hasNext())
-			   {
-				   System.out.println(itr.next());
-				   counter++;
-			   }
-			   System.out.println("No of Contacts Found : "+counter);
+			   entry.getValue().stream().forEach(s->{System.out.println(s);});
+			   System.out.println("");
 		}
 	}
 	public void dirStatePerson() {
-		Map<String,LinkedList>statePersonDir=new HashMap<>();
+		Map<String,List>statePersonDir=new HashMap<>();
 		for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
-		   
 		    entry.getValue().getStatePersonDir(statePersonDir);
 		}
-		for (Map.Entry<String,LinkedList> entry : statePersonDir.entrySet()) {
+		for (Map.Entry<String,List> entry : statePersonDir.entrySet()) {
 			   System.out.println(entry.getKey());
 			   System.out.println("");
-			   int counter=0;
-			   Iterator<String> itr=entry.getValue().iterator();
-			   while(itr.hasNext())
-			   {
-				   System.out.println(itr.next());
-				   counter++;
-			   }
-			   System.out.println("No of Contacts Found : "+counter);
+			   entry.getValue().stream().forEach(s->{System.out.println(s);});
+			   System.out.println("");
 		}
 	}
 }
