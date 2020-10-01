@@ -76,7 +76,7 @@ public void searchByCity(Scanner sc) {
 		    entry.getValue().getCityPersonDir(cityPersonDir);
 		}
 		for (Map.Entry<String,List> entry : cityPersonDir.entrySet()) {
-			   System.out.println("City : "+entry.getKey());
+			   System.out.println("City : "+entry.getKey()+" No of Contacts Found : "+entry.getValue().stream().count());
 			   System.out.println("");
 			   entry.getValue().stream().forEach(s->{System.out.println(s);});
 			   System.out.println("");
@@ -88,7 +88,7 @@ public void searchByCity(Scanner sc) {
 		    entry.getValue().getStatePersonDir(statePersonDir);
 		}
 		for (Map.Entry<String,List> entry : statePersonDir.entrySet()) {
-			   System.out.println(entry.getKey());
+			   System.out.println(entry.getKey()+" No of Contacts Found : "+entry.getValue().stream().count());
 			   System.out.println("");
 			   entry.getValue().stream().forEach(s->{System.out.println(s);});
 			   System.out.println("");
