@@ -71,35 +71,27 @@ public void searchByCity(Scanner sc) {
 		}
 }
 	public void dirCityPerson() {
-		Map<String,LinkedList>cityPersonDir=new HashMap<>();
+		Map<String,List>cityPersonDir=new HashMap<>();
 		for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
-		   
 		    entry.getValue().getCityPersonDir(cityPersonDir);
 		}
-		for (Map.Entry<String,LinkedList> entry : cityPersonDir.entrySet()) {
-			   System.out.println(entry.getKey());
+		for (Map.Entry<String,List> entry : cityPersonDir.entrySet()) {
+			   System.out.println("City : "+entry.getKey());
 			   System.out.println("");
-			   Iterator<String> itr=entry.getValue().iterator();
-			   while(itr.hasNext())
-			   {
-				   System.out.println(itr.next());
-			   }
+			   entry.getValue().stream().forEach(s->{System.out.println(s);});
+			   System.out.println("");
 		}
 	}
 	public void dirStatePerson() {
-		Map<String,LinkedList>statePersonDir=new HashMap<>();
+		Map<String,List>statePersonDir=new HashMap<>();
 		for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
-		   
 		    entry.getValue().getStatePersonDir(statePersonDir);
 		}
-		for (Map.Entry<String,LinkedList> entry : statePersonDir.entrySet()) {
+		for (Map.Entry<String,List> entry : statePersonDir.entrySet()) {
 			   System.out.println(entry.getKey());
 			   System.out.println("");
-			   Iterator<String> itr=entry.getValue().iterator();
-			   while(itr.hasNext())
-			   {
-				   System.out.println(itr.next());
-			   }
+			   entry.getValue().stream().forEach(s->{System.out.println(s);});
+			   System.out.println("");
 		}
 	}
 }

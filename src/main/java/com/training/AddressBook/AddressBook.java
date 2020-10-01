@@ -141,34 +141,20 @@ public void getContactsForState(String str) {
 	Predicate<Contact>P4=(n->n.getState().equals(str));
 	contact.stream().filter(P4).forEach(c->{System.out.println("State : "+c.getState()+" Name : "+c.getFirstName()+" "+c.getLastName());});
 }
-public void getCityPersonDir(Map<String, LinkedList> cityPersonDir) {
-	Iterator<Contact> itr=contact.iterator();
-	Contact c=new Contact();
-	while(itr.hasNext())
-	{
-	c=itr.next();
-	if(cityPersonDir.containsKey(c.getCity()))
+public void getCityPersonDir(Map<String, List> cityPersonDir) {
+	contact.stream().forEach(c->{if(cityPersonDir.containsKey(c.getCity()))
 		cityPersonDir.get(c.getCity()).add(c.getFirstName()+" "+c.getLastName());
 	else {
-	cityPersonDir.put(c.getCity(),new LinkedList<String>());
+		cityPersonDir.put(c.getCity(),new LinkedList<String>());
 	cityPersonDir.get(c.getCity()).add(c.getFirstName()+" "+c.getLastName());
+	}});
 	}
-	}
-	
-}
-public void getStatePersonDir(Map<String, LinkedList> statePersonDir) {
-	Iterator<Contact> itr=contact.iterator();
-	Contact c=new Contact();
-	while(itr.hasNext())
-	{
-	c=itr.next();
-	if(statePersonDir.containsKey(c.getState()))
+public void getStatePersonDir(Map<String, List> statePersonDir) {
+	contact.stream().forEach(c->{if(statePersonDir.containsKey(c.getState()))
 		statePersonDir.get(c.getState()).add(c.getFirstName()+" "+c.getLastName());
 	else {
-	statePersonDir.put(c.getState(),new LinkedList<String>());
+		statePersonDir.put(c.getState(),new LinkedList<String>());
 	statePersonDir.get(c.getState()).add(c.getFirstName()+" "+c.getLastName());
+	}});
 	}
-	}
-	
-}
 }
