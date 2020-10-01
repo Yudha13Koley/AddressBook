@@ -102,8 +102,9 @@ public class AddressBook {
 	   Contact c1=contact.stream().filter(P2).findFirst().get();
 	   return c1;
 	   }
-	   else return searchContactsByFirstName(sc);
-	
+	   else {System.out.println("No Such First Name Present");
+		   return searchContactsByFirstName(sc);
+	   }
    }
    public boolean isNamePresent(Contact c) {
 	   if(contact.size()==0)
@@ -133,23 +134,11 @@ public class AddressBook {
 		
    }
 public void getContactsForCity(String Str) {
-	Iterator<Contact> itr=contact.iterator();
-	Contact c=new Contact();
-	while(itr.hasNext())
-	{
-	c=itr.next();
-	if(c.getCity().equals(Str))
-		System.out.println("Name : "+c.getFirstName()+" "+c.getLastName()+" City :"+c.getCity());
-	}
+	Predicate<Contact>P3=(n->n.getCity().equals(Str));
+	contact.stream().filter(P3).forEach(c->{System.out.println("City : "+c.getCity()+" Name : "+c.getFirstName()+" "+c.getLastName());});
 }
 public void getContactsForState(String str) {
-	Iterator<Contact> itr=contact.iterator();
-	Contact c=new Contact();
-	while(itr.hasNext())
-	{
-	c=itr.next();
-	if(c.getState().equals(str))
-		System.out.println("Name : "+c.getFirstName()+" "+c.getLastName()+" State :"+c.getState());
-	}
+	Predicate<Contact>P4=(n->n.getState().equals(str));
+	contact.stream().filter(P4).forEach(c->{System.out.println("State : "+c.getState()+" Name : "+c.getFirstName()+" "+c.getLastName());});
 }
 }
