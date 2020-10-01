@@ -88,6 +88,14 @@ public String getEmail() {
 public void setEmail(String email) {
 	this.email = email;
 }
+@Override
+public boolean equals(Object obj){
+	   Contact c=(Contact) obj;
+	   if(c.firstName.equals(firstName)&&c.lastName.equals(lastName))
+		   return true;
+	   else
+	   return false;
+}
 
 @Override
 public String toString() {
