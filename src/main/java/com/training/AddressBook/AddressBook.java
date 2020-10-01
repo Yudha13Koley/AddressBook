@@ -1,6 +1,8 @@
 package com.training.AddressBook;
 
 import java.util.*;
+import java.util.function.Predicate;
+
 import com.training.Contact.Contact;
 
 public class AddressBook {
@@ -14,7 +16,7 @@ public class AddressBook {
 		String lname=sc.next();
 		c.setLastName(lname);
 		c.setFirstName(fname);
-		boolean b=isNamePresent(fname,lname);
+		boolean b=isNamePresent(c);
 		if(b==false)
 			break loop2;
 		System.out.println("Contact Already Present !Enter Unique Contact !");
@@ -34,16 +36,14 @@ public class AddressBook {
 		contact.add(c);
 		System.out.println("Contact Saved !");
 	}
+	public List<Contact> getContact() {
+		return contact;
+	}
 	public void printContacts() {
 		if(contact.size()==0)
 			System.out.println("List is Empty !");
-		else {
-		Iterator<Contact> itr=contact.iterator();
-		while(itr.hasNext())
-		{
-			System.out.println(itr.next());
-		}
-	}
+		else 
+			contact.stream().forEach(c->{System.out.println(c);});
 	}
    public void editContact(Scanner sc) {
 	   System.out.println("Search Contact to Edit :");
@@ -97,64 +97,40 @@ public class AddressBook {
    public Contact searchContactsByFirstName(Scanner sc) {
 	   System.out.println("Enter the First Name of the contact you want to Search :");
 	   String fname=sc.next();
-		Iterator<Contact> itr=contact.iterator();
-		Contact c=new Contact();
-		boolean b = false;
-		while(itr.hasNext())
-		{
-		c=itr.next();
-		if(c.getFirstName().equals(fname))
-		{
-		b=true;
-		break;
-		}
-		}
-		if(b==true)
-		return c;
-		else
-			return searchContactsByFirstName(sc);
+	   Predicate<Contact>P2=(n->n.getFirstName().equals(fname));
+	   if(contact.stream().anyMatch(P2)) {
+	   Contact c1=contact.stream().filter(P2).findFirst().get();
+	   return c1;
+	   }
+	   else return searchContactsByFirstName(sc);
+	
    }
-   public boolean isNamePresent(String str,String str2) {
+   public boolean isNamePresent(Contact c) {
 	   if(contact.size()==0)
 		   return false;
 	   else {
-	   Iterator<Contact> itr=contact.iterator();
-		Contact c=new Contact();
-		boolean b = false;
-		while(itr.hasNext())
-		{
-		c=itr.next();
-		if(c.getFirstName().equals(str) && c.getLastName().equals(str2))
-		{
-		b=true;
-		break;
-		}
-		}
-		return b; 
-   }
+		   Predicate<Contact>P1=c1-> (c1.equals(c));
+		   if(contact.stream().anyMatch(P1))
+			   return true;
+		   else
+			   return false;
+		    }
    }
    public void deleteContact(Scanner sc) {
 	   System.out.println("Enter the First Name of the contact you want to Delete :");
 	   String fname=sc.next();
-		Iterator<Contact> itr=contact.iterator();
-		boolean b = false;
-		Contact c=new Contact();
-		while(itr.hasNext())
-		{
-			c=itr.next();
-		if(c.getFirstName().equals(fname))
-		{
-	    contact.remove(c);
-		b=true;
-		System.out.println("Contact Deleted !");
-		printContacts();
-		break;
-		}
-		}
-		if(b!=true)
-		{System.out.println("No such First Name :");
-		 deleteContact(sc);
-		}
+	   Predicate<Contact>P2=(n->n.getFirstName().equals(fname));
+	   if(contact.stream().anyMatch(P2)) {
+	   Contact c1=contact.stream().filter(P2).findFirst().get();
+	   contact.remove(c1);
+	   System.out.println("Contact Deleted !");
+	   printContacts();
+	   }
+	   else {
+		   System.out.println("No Such First Name Present");
+		   deleteContact(sc);
+	   }
+		
    }
 public void getContactsForCity(String Str) {
 	Iterator<Contact> itr=contact.iterator();

@@ -34,8 +34,16 @@ public void accessDirectory(String str,Scanner sc) {
 	break;
 	case 3:addressBookDirectory.get(str).deleteContact(sc);
 	break;
-	case 5:System.out.println(addressBookDirectory.get(str).searchContactsByFirstName(sc));
-	break;
+	case 5:if(addressBookDirectory.get(str).getContact().size()==0)
+	{
+		System.out.println("Address Book is Empty !");
+		break;
+	}
+	else
+	{
+		System.out.println(addressBookDirectory.get(str).searchContactsByFirstName(sc));
+		break;
+	}
 	case 4:addressBookDirectory.get(str).printContacts();
 	break;
 	case 6:addressBookDirectory.get(str).printContacts();
