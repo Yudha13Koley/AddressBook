@@ -141,7 +141,7 @@ public void getContactsForState(String str) {
 	Predicate<Contact>P4=(n->n.getState().equals(str));
 	contact.stream().filter(P4).forEach(c->{System.out.println("State : "+c.getState()+" Name : "+c.getFirstName()+" "+c.getLastName());});
 }
-public void getCityPersonDir(Map<String, List> cityPersonDir) {
+public void getCityPersonDir(Map<String, LinkedList<String>> cityPersonDir) {
 	contact.stream().forEach(c->{if(cityPersonDir.containsKey(c.getCity()))
 		cityPersonDir.get(c.getCity()).add(c.getFirstName()+" "+c.getLastName());
 	else {
@@ -149,7 +149,7 @@ public void getCityPersonDir(Map<String, List> cityPersonDir) {
 	cityPersonDir.get(c.getCity()).add(c.getFirstName()+" "+c.getLastName());
 	}});
 	}
-public void getStatePersonDir(Map<String, List> statePersonDir) {
+public void getStatePersonDir(Map<String, LinkedList<String>> statePersonDir) {
 	contact.stream().forEach(c->{if(statePersonDir.containsKey(c.getState()))
 		statePersonDir.get(c.getState()).add(c.getFirstName()+" "+c.getLastName());
 	else {
@@ -157,4 +157,7 @@ public void getStatePersonDir(Map<String, List> statePersonDir) {
 	statePersonDir.get(c.getState()).add(c.getFirstName()+" "+c.getLastName());
 	}});
 	}
+public void viewEntriesSortedByName() {
+	contact.stream().sorted((c1,c2)->(c1.getFirstName()+c1.getLastName()).compareToIgnoreCase(c2.getFirstName()+c2.getLastName())).forEach(c->{System.out.println(c);});
+}
 }

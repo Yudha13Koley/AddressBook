@@ -17,7 +17,8 @@ public class AddressBookMain {
 			System.out.println("Enter 5 to search contacts in dictionary by State : ");
 			System.out.println("Enter 6 to create City Person Directory : ");
 			System.out.println("Enter 7 to create State Person Directory : ");
-			System.out.println("Enter 8 to exit : ");
+			System.out.println("Enter 8 to print contacts in the directory in sorted order by Name :");
+			System.out.println("Enter 9 to exit : ");
 			String choice=sc.next();
 			switch(Integer.parseInt(choice)) {
 			case 1:A1.addBooksInDirectory(sc);
@@ -36,7 +37,9 @@ public class AddressBookMain {
 			break;
 			case 7:A1.dirStatePerson();
 			break;
-			case 8:sc.close();
+			case 8:A1.printSortedContacts();
+			break;
+			case 9:sc.close();
 				System.exit(0);
 			default: System.out.println("Select From The Menu !");
 			}

@@ -2,10 +2,8 @@ package com.training.AddressBookDirectory;
 
 
 import java.util.*;
-import java.util.Map.Entry;
 
 import com.training.AddressBook.AddressBook;
-import com.training.Contact.Contact;
 
 public class AddressBookDirectory {
 private Map<String,AddressBook>addressBookDirectory=new HashMap<>();
@@ -71,27 +69,33 @@ public void searchByCity(Scanner sc) {
 		}
 }
 	public void dirCityPerson() {
-		Map<String,List>cityPersonDir=new HashMap<>();
+		Map<String,LinkedList<String>>cityPersonDir=new HashMap<>();
 		for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
-		    entry.getValue().getCityPersonDir(cityPersonDir);
+			entry.getValue().getCityPersonDir(cityPersonDir);
 		}
-		for (Map.Entry<String,List> entry : cityPersonDir.entrySet()) {
+		for (Map.Entry<String,LinkedList<String>> entry : cityPersonDir.entrySet()) {
 			   System.out.println("City : "+entry.getKey()+" No of Contacts Found : "+entry.getValue().stream().count());
+			   System.out.println("");
+			   entry.getValue().forEach(s->{System.out.println(s);});
+			   System.out.println("");
+		}
+	}
+	public void dirStatePerson() {
+		Map<String,LinkedList<String>>statePersonDir=new HashMap<>();
+		for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
+		    entry.getValue().getStatePersonDir(statePersonDir);
+		}
+		for (Map.Entry<String,LinkedList<String>> entry : statePersonDir.entrySet()) {
+			   System.out.println(entry.getKey()+" No of Contacts Found : "+entry.getValue().stream().count());
 			   System.out.println("");
 			   entry.getValue().stream().forEach(s->{System.out.println(s);});
 			   System.out.println("");
 		}
 	}
-	public void dirStatePerson() {
-		Map<String,List>statePersonDir=new HashMap<>();
-		for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
-		    entry.getValue().getStatePersonDir(statePersonDir);
-		}
-		for (Map.Entry<String,List> entry : statePersonDir.entrySet()) {
-			   System.out.println(entry.getKey()+" No of Contacts Found : "+entry.getValue().stream().count());
-			   System.out.println("");
-			   entry.getValue().stream().forEach(s->{System.out.println(s);});
-			   System.out.println("");
+	public void printSortedContacts() {
+		for(Map.Entry<String,AddressBook> entry:addressBookDirectory.entrySet()) {
+			System.out.println(entry.getKey());
+			entry.getValue().viewEntriesSortedByName();
 		}
 	}
 }
