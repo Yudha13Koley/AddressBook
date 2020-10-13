@@ -7,6 +7,12 @@ import com.training.Contact.Contact;
 
 public class AddressBook {
 	private List<Contact>contact=new LinkedList<>();
+	public AddressBook(List<Contact> contact) {
+		this.contact = contact;
+	}
+	public AddressBook() {
+		
+	}
 	public void addContact(Scanner sc) {
 		Contact c=new Contact();
 		loop2 :while(true) {
@@ -168,5 +174,10 @@ public void viewEntriesSortedByState() {
 	}
 public void viewEntriesSortedByZip() {
 	contact.stream().sorted((c1,c2)->c1.getZip().compareToIgnoreCase(c2.getZip())).forEach(c->{System.out.println(c);});
-}	
+}
+@Override
+public String toString() {
+	return contact + "\n";
+}
+
 }

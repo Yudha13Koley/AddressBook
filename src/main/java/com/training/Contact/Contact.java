@@ -100,7 +100,7 @@ public boolean equals(Object obj){
 @Override
 public String toString() {
 	return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
-			+ ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "]";
+			+ ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "] \n";
 }
 
 

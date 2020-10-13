@@ -4,19 +4,34 @@ package com.training.AddressBookDirectory;
 import java.util.*;
 
 import com.training.AddressBook.AddressBook;
+import com.training.addressbookfileio.AddressBookFileIOService;
 
 public class AddressBookDirectory {
 private Map<String,AddressBook>addressBookDirectory=new HashMap<>();
+public AddressBookDirectory() {
+}
+public AddressBookDirectory(Map<String, AddressBook> addressBookDirectory) {
+	super();
+	this.addressBookDirectory = addressBookDirectory;
+}
+public enum IOService {
+	CONSOLE_IO, FILE_IO, DB_IO, REST_IO
+}
 public void addBooksInDirectory(Scanner sc) {
 	System.out.println("Enter the Name of the Directory : ");
 	String str=sc.next();
 	addressBookDirectory.put(str,new AddressBook());
 }
-public void printDirectory(){
+public void printDirectory(IOService ios){
+	if(ios.equals(IOService.CONSOLE_IO)) {
 	for (Map.Entry<String,AddressBook> entry : addressBookDirectory.entrySet()) {
 	    System.out.println(entry.getKey());
 	    entry.getValue().printContacts();
-	}	
+	}
+	}
+	else if(ios.equals(IOService.FILE_IO)) {
+		new AddressBookFileIOService().printDirectoryInFile(addressBookDirectory);
+	}
 }
 public void accessDirectory(String str,Scanner sc) {
 	loop : while(true) {
@@ -29,6 +44,7 @@ public void accessDirectory(String str,Scanner sc) {
 	String choice=sc.next();
 	switch(Integer.parseInt(choice)) {
 	case 1:addressBookDirectory.get(str).addContact(sc);
+	//addressBookDirectory=new AddressBookFileIOService().addContactsFromFile(addressBookDirectory,str);
 	break;
 	case 2:addressBookDirectory.get(str).editContact(sc);
 	break;
@@ -51,6 +67,7 @@ public void accessDirectory(String str,Scanner sc) {
 	default: System.out.println("Select From The Menu !");
 	}
 }
+
 }
 public void searchByCity(Scanner sc) {
 	System.out.println("Enter the name of the City :");
@@ -128,6 +145,11 @@ public void searchByCity(Scanner sc) {
 			case 5:break loop;
 			default:System.out.println("Select From Menu : ");
 			}
+		}
+	}
+	public void readDirectory(IOService fileIo) {
+		if(fileIo.equals(IOService.FILE_IO)) {
+			addressBookDirectory=new AddressBookFileIOService().readAddressBooks(addressBookDirectory);
 		}
 	}
 }

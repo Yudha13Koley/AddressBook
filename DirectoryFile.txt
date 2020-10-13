@@ -1,0 +1,12 @@
+Work
+[Contact [firstName=Yudha, lastName=Koley, address=123Street, city=Howrah, state=West Bengal, zip=711102, phoneNo=72777377373, email=yudhsa.com] 
+, Contact [firstName=Ram, lastName=Koley, address=123Street, city=Howrah, state=West Bengal, zip=711102, phoneNo=72777377373, email=yudhsa.com] 
+, Contact [firstName=Shyam, lastName=Koley, address=123Street, city=Howrah, state=West Bengal, zip=711102, phoneNo=72777377373, email=yudhsa.com] 
+, Contact [firstName=Shyam, lastName=Koley, address=123Street, city=Howrah, state=West Bengal, zip=711102, phoneNo=72777377373, email=yudhsa.com] 
+, Contact [firstName=Shyam, lastName=Koley, address=123Street, city=Howrah, state=West Bengal, zip=711102, phoneNo=72777377373, email=yudhsa.com] 
+]
+Home
+[Contact [firstName=Yudha, lastName=Koley, address=123Street, city=Howrah, state=West Bengal, zip=711102, phoneNo=72777377373, email=yudhsa.com] 
+, Contact [firstName=Ram, lastName=Koley, address=123Street, city=Howrah, state=West Bengal, zip=711102, phoneNo=72777377373, email=yudhsa.com] 
+, Contact [firstName=Shyam, lastName=Koley, address=123Street, city=Howrah, state=West Bengal, zip=711102, phoneNo=72777377373, email=yudhsa.com] 
+]

@@ -3,6 +3,7 @@ package com.training.main;
 import java.util.*;
 
 import com.training.AddressBookDirectory.AddressBookDirectory;
+import com.training.AddressBookDirectory.AddressBookDirectory.IOService;
 
 public class AddressBookMain {
 	public static void main(String[] args) {
@@ -18,7 +19,8 @@ public class AddressBookMain {
 			System.out.println("Enter 6 to Create City Person Directory : ");
 			System.out.println("Enter 7 to Create State Person Directory : ");
 			System.out.println("Enter 8 to Sort Contacts in the directory :");
-			System.out.println("Enter 9 to exit : ");
+			System.out.println("Enter 9 to Load Directory From File : ");
+			System.out.println("Enter 10 to Exit : ");
 			String choice=sc.next();
 			switch(Integer.parseInt(choice)) {
 			case 1:A1.addBooksInDirectory(sc);
@@ -27,7 +29,14 @@ public class AddressBookMain {
 			    String str=sc.next();
 				A1.accessDirectory(str, sc);
 			    break;
-			case 3:A1.printDirectory();
+			case 3:System.out.println("Print in Console : 1 Or Print in File : 2");
+				int a=sc.nextInt();
+			      if(a==1)
+				A1.printDirectory(IOService.CONSOLE_IO);
+			      else if(a==2)
+			    	  A1.printDirectory(IOService.FILE_IO);
+			      else
+			    	  System.out.println("Enter Valid Option !");
 				break;
 			case 4:A1.searchByCity(sc);
 			break;
@@ -39,8 +48,10 @@ public class AddressBookMain {
 			break;
 			case 8:A1.printSortedContacts(sc);
 			break;
-			case 9:sc.close();
+			case 10:sc.close();
 				System.exit(0);
+			case 9:A1.readDirectory(IOService.FILE_IO);
+			break;
 			default: System.out.println("Select From The Menu !");
 			}
 		}
