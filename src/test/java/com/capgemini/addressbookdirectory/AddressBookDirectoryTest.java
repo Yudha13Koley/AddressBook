@@ -25,12 +25,12 @@ public class AddressBookDirectoryTest {
 		addressBookDirectory.put("Home",new AddressBook(contact));
 		addressBookDirectory.put("Work",new AddressBook(contact));
 		AddressBookDirectory ABD =new AddressBookDirectory(addressBookDirectory);
-		ABD.printDirectory(IOService.CSV_IO);
+		ABD.printDirectory(IOService.REST_IO);
 	}
 	@Test
 	public void Test2() {
 		AddressBookDirectory ABD =new AddressBookDirectory();
-		ABD.readDirectory(IOService.CSV_IO);
+		ABD.readDirectory(IOService.REST_IO);
 		ABD.printDirectory(IOService.CONSOLE_IO);
 	}
 

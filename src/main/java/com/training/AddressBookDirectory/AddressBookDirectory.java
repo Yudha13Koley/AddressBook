@@ -5,6 +5,7 @@ import java.util.*;
 import com.training.AddressBook.AddressBook;
 import com.training.addressbookcsv.AddressBookDirCsvService;
 import com.training.addressbookfileio.AddressBookFileIOService;
+import com.training.addressbookjsonservice.AddressBookDirJsonService;
 
 public class AddressBookDirectory {
 	private Map<String, AddressBook> addressBookDirectory = new HashMap<>();
@@ -37,6 +38,8 @@ public class AddressBookDirectory {
 			new AddressBookFileIOService().printDirectoryInFile(addressBookDirectory);
 		} else if (ios.equals(IOService.CSV_IO)) {
 			new AddressBookDirCsvService().printDirectoryInCSV(addressBookDirectory);
+		}else if(ios.equals(IOService.REST_IO)) {
+			new AddressBookDirJsonService().printDirectoryInJson(addressBookDirectory);
 		}
 	}
 
@@ -178,6 +181,9 @@ public class AddressBookDirectory {
 		}
 		if (fileIo.equals(IOService.CSV_IO)) {
 			addressBookDirectory = new AddressBookDirCsvService().readAddressBooksFromCSV(addressBookDirectory);
+		}
+		if(fileIo.equals(IOService.REST_IO)) {
+			addressBookDirectory = new AddressBookDirJsonService().readAddressBooksFromJson(addressBookDirectory);
 		}
 	}
 }
