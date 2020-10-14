@@ -1,6 +1,5 @@
 package com.capgemini.addressbookdirectory;
 
-import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -26,7 +25,13 @@ public class AddressBookDirectoryTest {
 		addressBookDirectory.put("Home",new AddressBook(contact));
 		addressBookDirectory.put("Work",new AddressBook(contact));
 		AddressBookDirectory ABD =new AddressBookDirectory(addressBookDirectory);
-		ABD.printDirectory(IOService.FILE_IO);
+		ABD.printDirectory(IOService.CSV_IO);
+	}
+	@Test
+	public void Test2() {
+		AddressBookDirectory ABD =new AddressBookDirectory();
+		ABD.readDirectory(IOService.CSV_IO);
+		ABD.printDirectory(IOService.CONSOLE_IO);
 	}
 
 }
