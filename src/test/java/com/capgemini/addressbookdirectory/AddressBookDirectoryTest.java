@@ -25,7 +25,7 @@ public class AddressBookDirectoryTest {
 		addressBookDirectory.put("Home",new AddressBook(contact));
 		addressBookDirectory.put("Work",new AddressBook(contact));
 		AddressBookDirectory ABD =new AddressBookDirectory(addressBookDirectory);
-		ABD.printDirectory(IOService.REST_IO);
+		ABD.printDirectory(IOService.CONSOLE_IO);
 	}
 	@Test
 	public void Test2() {

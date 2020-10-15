@@ -32,13 +32,13 @@ public class AddressBookDirectory {
 		if (ios.equals(IOService.CONSOLE_IO)) {
 			for (Map.Entry<String, AddressBook> entry : addressBookDirectory.entrySet()) {
 				System.out.println(entry.getKey());
-				entry.getValue().printContacts();
+				System.out.println(entry.getValue());
 			}
 		} else if (ios.equals(IOService.FILE_IO)) {
 			new AddressBookFileIOService().printDirectoryInFile(addressBookDirectory);
 		} else if (ios.equals(IOService.CSV_IO)) {
 			new AddressBookDirCsvService().printDirectoryInCSV(addressBookDirectory);
-		}else if(ios.equals(IOService.REST_IO)) {
+		} else if (ios.equals(IOService.REST_IO)) {
 			new AddressBookDirJsonService().printDirectoryInJson(addressBookDirectory);
 		}
 	}
@@ -182,7 +182,7 @@ public class AddressBookDirectory {
 		if (fileIo.equals(IOService.CSV_IO)) {
 			addressBookDirectory = new AddressBookDirCsvService().readAddressBooksFromCSV(addressBookDirectory);
 		}
-		if(fileIo.equals(IOService.REST_IO)) {
+		if (fileIo.equals(IOService.REST_IO)) {
 			addressBookDirectory = new AddressBookDirJsonService().readAddressBooksFromJson(addressBookDirectory);
 		}
 	}
