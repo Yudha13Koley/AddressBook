@@ -3,6 +3,7 @@ package com.training.AddressBookDirectory;
 import java.util.*;
 
 import com.training.AddressBook.AddressBook;
+import com.training.Contact.Contact;
 import com.training.addressbookcsv.AddressBookDirCsvService;
 import com.training.addressbookfileio.AddressBookFileIOService;
 import com.training.addressbookjsonservice.AddressBookDirJsonService;
@@ -195,8 +196,36 @@ public class AddressBookDirectory {
 		int count = 0;
 		for (Map.Entry<String, AddressBook> entry : addressBookDirectory.entrySet()) {
 			count += entry.getValue().getContact().size();
-			;
 		}
 		return count;
+	}
+
+	public void updateContactInDatabase(String firstname, String lastname, String address) {
+		int rowsAffected = new AddressBookDirDBService().updateAddressOfContact(firstname, lastname, address);
+		if (rowsAffected == 1) {
+			for (Map.Entry<String, AddressBook> entry : addressBookDirectory.entrySet()) {
+				Contact c = entry.getValue().getContact().stream().filter(
+						n -> n.getFirstName().equalsIgnoreCase(firstname) && n.getLastName().equalsIgnoreCase(lastname))
+						.findFirst().orElse(null);
+				if (c != null)
+					c.setAddress(address);
+			}
+		}
+
+	}
+
+	public boolean isSyncWithDatabase(String firstname, String lastname) {
+		Map<String, AddressBook> newMap = new AddressBookDirDBService().getContactFromDatabase(firstname, lastname);
+		boolean result = false;
+		for (Map.Entry<String, AddressBook> entry : newMap.entrySet()) {
+			int n = addressBookDirectory.get(entry.getKey()).getContact().indexOf(entry.getValue().getContact().get(0));
+			if (addressBookDirectory.get(entry.getKey()).getContact().get(n)
+					.equalsContact(entry.getValue().getContact().get(0))) {
+				result = true;
+			} else {
+				result = false;
+			}
+		}
+		return result;
 	}
 }
