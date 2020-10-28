@@ -1,20 +1,13 @@
 package com.training.addressbookjsonservice;
 
-import java.io.BufferedReader;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.training.AddressBook.AddressBook;
-import com.training.AddressBookDirectory.AddressBookDirectory;
-import com.training.Contact.Contact;
 
 public class AddressBookDirJsonService {
 

@@ -6,6 +6,7 @@ import com.training.AddressBook.AddressBook;
 import com.training.addressbookcsv.AddressBookDirCsvService;
 import com.training.addressbookfileio.AddressBookFileIOService;
 import com.training.addressbookjsonservice.AddressBookDirJsonService;
+import com.training.dbservice.AddressBookDirDBService;
 
 public class AddressBookDirectory {
 	private Map<String, AddressBook> addressBookDirectory = new HashMap<>();
@@ -19,7 +20,7 @@ public class AddressBookDirectory {
 	}
 
 	public enum IOService {
-		CONSOLE_IO, FILE_IO, CSV_IO, REST_IO
+		CONSOLE_IO, FILE_IO, CSV_IO, REST_IO, DB_IO
 	}
 
 	public void addBooksInDirectory(Scanner sc) {
@@ -185,5 +186,17 @@ public class AddressBookDirectory {
 		if (fileIo.equals(IOService.REST_IO)) {
 			addressBookDirectory = new AddressBookDirJsonService().readAddressBooksFromJson(addressBookDirectory);
 		}
+		if (fileIo.equals(IOService.DB_IO)) {
+			addressBookDirectory = new AddressBookDirDBService().readAddressBooks(addressBookDirectory);
+		}
+	}
+
+	public int getCountOFEntries() {
+		int count = 0;
+		for (Map.Entry<String, AddressBook> entry : addressBookDirectory.entrySet()) {
+			count += entry.getValue().getContact().size();
+			;
+		}
+		return count;
 	}
 }
