@@ -228,4 +228,8 @@ public class AddressBookDirectory {
 		}
 		return result;
 	}
+
+	public void readDirectoryForADateRange(String date) {
+		addressBookDirectory = new AddressBookDirDBService().readAddressBooksForADateRange(addressBookDirectory, date);
+	}
 }

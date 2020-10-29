@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class AddressBookDirDBService {
 	}
 
 	public Map<String, AddressBook> readAddressBooks(Map<String, AddressBook> addressBookDirectory) {
-		String sql = "SELECT a.book_type,firstname,lastname,address,city,state,zip,phone_number,email FROM "
+		String sql = "SELECT a.book_type,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
 				+ "contacts b,address_book a,address_book_contacts c "
 				+ "WHERE a.address_book_id=c.book_id AND c.contact_id=b.id ;";
 		try {
@@ -63,14 +64,15 @@ public class AddressBookDirDBService {
 				String zip = resultSet.getString("zip");
 				String phone_number = resultSet.getString("phone_number");
 				String email = resultSet.getString("email");
+				LocalDate date_added = resultSet.getDate("date_added").toLocalDate();
 				String book_type = resultSet.getString("book_type");
 				if (addressBookDirectory.containsKey(book_type)) {
-					addressBookDirectory.get(book_type).getContact()
-							.add(new Contact(firstname, lastname, address, city, state, zip, phone_number, email));
+					addressBookDirectory.get(book_type).getContact().add(new Contact(firstname, lastname, address, city,
+							state, zip, phone_number, email, date_added));
 				} else {
 					addressBookDirectory.put(book_type, new AddressBook());
-					addressBookDirectory.get(book_type).getContact()
-							.add(new Contact(firstname, lastname, address, city, state, zip, phone_number, email));
+					addressBookDirectory.get(book_type).getContact().add(new Contact(firstname, lastname, address, city,
+							state, zip, phone_number, email, date_added));
 				}
 			}
 		} catch (SQLException e) {
@@ -97,11 +99,12 @@ public class AddressBookDirDBService {
 	}
 
 	public Map<String, AddressBook> getContactFromDatabase(String firstname, String lastname) {
-		String sql = String
-				.format("SELECT a.book_type,firstname,lastname,address,city,state,zip,phone_number,email FROM "
+		String sql = String.format(
+				"SELECT a.book_type,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
 						+ "contacts b,address_book a,address_book_contacts c "
 						+ "WHERE a.address_book_id=c.book_id AND c.contact_id=b.id AND "
-						+ "firstname='%s' AND lastname='%s' ;", firstname, lastname);
+						+ "firstname='%s' AND lastname='%s' ;",
+				firstname, lastname);
 		Map<String, AddressBook> newMap = new HashMap<>();
 		try {
 			preparedStatement = getPreparedStatement(sql);
@@ -112,6 +115,25 @@ public class AddressBookDirDBService {
 			e.printStackTrace();
 		}
 		return newMap;
+	}
+
+	public Map<String, AddressBook> readAddressBooksForADateRange(Map<String, AddressBook> addressBookDirectory,
+			String date) {
+		String sql = String.format(
+				"SELECT a.book_type,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
+						+ "contacts b,address_book a,address_book_contacts c "
+						+ "WHERE a.address_book_id=c.book_id AND c.contact_id=b.id AND "
+						+ "date_added BETWEEN CAST('%s' AS DATE) AND DATE(NOW()) ;",
+				date);
+		try {
+			preparedStatement = getPreparedStatement(sql);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			addressBookDirectory = getDirectory(resultSet, addressBookDirectory);
+			preparedStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return addressBookDirectory;
 	}
 
 }
