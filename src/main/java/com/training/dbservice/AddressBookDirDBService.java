@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import com.training.AddressBook.AddressBook;
@@ -134,6 +136,38 @@ public class AddressBookDirDBService {
 			e.printStackTrace();
 		}
 		return addressBookDirectory;
+	}
+
+	public List<Contact> readAddressBooksForAColumn(Map<String, AddressBook> addressBookDirectory, String column,
+			String value) {
+		String sql = String.format(
+				"SELECT a.book_type,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
+						+ "contacts b,address_book a,address_book_contacts c "
+						+ "WHERE a.address_book_id=c.book_id AND c.contact_id=b.id AND " + "%s='%s' ;",
+				column, value);
+		try {
+			preparedStatement = getPreparedStatement(sql);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			addressBookDirectory = getDirectory(resultSet, addressBookDirectory);
+			preparedStatement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		List<Contact> list = new LinkedList<>();
+		for (Map.Entry<String, AddressBook> entry : addressBookDirectory.entrySet()) {
+			for (Contact contact : entry.getValue().getContact()) {
+				if (list.size() == 0)
+					list.add(contact);
+				boolean b = true;
+				for (Contact con : list) {
+					if (con.equalsContact(contact))
+						b = false;
+				}
+				if (b)
+					list.add(contact);
+			}
+		}
+		return list;
 	}
 
 }

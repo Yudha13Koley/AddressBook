@@ -1,10 +1,13 @@
 package com.capgemini.dbtests;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.training.AddressBookDirectory.AddressBookDirectory;
 import com.training.AddressBookDirectory.AddressBookDirectory.IOService;
+import com.training.Contact.Contact;
 
 public class AddressBookDatabaseServiceTests {
 
@@ -33,5 +36,21 @@ public class AddressBookDatabaseServiceTests {
 		int n = ABD.getCountOFEntries();
 		ABD.printDirectory(IOService.CONSOLE_IO);
 		Assert.assertEquals(7, n);
+	}
+
+	@Test
+	public void givenADatabase_whenRetrievedForACity_returnsCountOfContacts() {
+		AddressBookDirectory ABD = new AddressBookDirectory();
+		List<Contact> list = ABD.readDirectoryForAColumn("city", "Howrah");
+		System.out.println(list);
+		Assert.assertEquals(3, list.size());
+	}
+
+	@Test
+	public void givenADatabase_whenRetrievedForAState_returnsCountOfContacts() {
+		AddressBookDirectory ABD = new AddressBookDirectory();
+		List<Contact> list = ABD.readDirectoryForAColumn("state", "West Bengal");
+		System.out.println(list);
+		Assert.assertEquals(4, list.size());
 	}
 }

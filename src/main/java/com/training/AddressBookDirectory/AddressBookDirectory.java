@@ -232,4 +232,8 @@ public class AddressBookDirectory {
 	public void readDirectoryForADateRange(String date) {
 		addressBookDirectory = new AddressBookDirDBService().readAddressBooksForADateRange(addressBookDirectory, date);
 	}
+
+	public List<Contact> readDirectoryForAColumn(String column, String value) {
+		return new AddressBookDirDBService().readAddressBooksForAColumn(addressBookDirectory, column, value);
+	}
 }
