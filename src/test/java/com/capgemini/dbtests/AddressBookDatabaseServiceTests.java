@@ -17,7 +17,7 @@ public class AddressBookDatabaseServiceTests {
 		ABD.readDirectory(IOService.DB_IO);
 		int n = ABD.getCountOFEntries();
 		ABD.printDirectory(IOService.CONSOLE_IO);
-		Assert.assertEquals(11, n);
+		Assert.assertEquals(13, n);
 	}
 
 	@Test
@@ -35,7 +35,7 @@ public class AddressBookDatabaseServiceTests {
 		ABD.readDirectoryForADateRange("2019-01-01");
 		int n = ABD.getCountOFEntries();
 		ABD.printDirectory(IOService.CONSOLE_IO);
-		Assert.assertEquals(7, n);
+		Assert.assertEquals(9, n);
 	}
 
 	@Test
@@ -52,5 +52,14 @@ public class AddressBookDatabaseServiceTests {
 		List<Contact> list = ABD.readDirectoryForAColumn("state", "West Bengal");
 		System.out.println(list);
 		Assert.assertEquals(4, list.size());
+	}
+
+	@Test
+	public void givenADatabase_whenAddedAConatact_returnsisSyncWithDatabase() {
+		AddressBookDirectory ABD = new AddressBookDirectory();
+		ABD.readDirectory(IOService.DB_IO);
+		ABD.addContactInDatabase(3, "Bina", "Kamal", "sadar natin laane", "Bangalore", "Karnataka", "489025",
+				"7277282884", "etgsgshs@gmail.com", "2020-10-29");
+		Assert.assertTrue(ABD.isSyncWithDatabase("Bina", "Kamal"));
 	}
 }

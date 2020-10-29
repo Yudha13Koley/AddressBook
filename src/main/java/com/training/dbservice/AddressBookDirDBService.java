@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import com.training.AddressBook.AddressBook;
 import com.training.Contact.Contact;
 
@@ -168,6 +167,69 @@ public class AddressBookDirDBService {
 			}
 		}
 		return list;
+	}
+
+	public Contact addContact(int book_id, String firstname, String lastname, String address, String city, String state,
+			String zip, String phone, String email, String date) {
+		String sql = String.format(
+				"INSERT INTO contacts(firstname,lastname,address,city,state,zip,phone_number,email,date_added) VALUES "
+						+ "('%s','%s','%s','%s','%s', %s, '%s','%s','%s') ;",
+				firstname, lastname, address, city, state, zip, phone, email, date);
+		Connection connection = null;
+		int id = -1;
+		try {
+			connection = this.getConnection();
+			connection.setAutoCommit(false);
+			preparedStatement = connection.prepareStatement(sql);
+			int rowAffected = preparedStatement.executeUpdate(sql, preparedStatement.RETURN_GENERATED_KEYS);
+			if (rowAffected == 1) {
+				ResultSet resultSet = preparedStatement.getGeneratedKeys();
+				if (resultSet.next()) {
+					id = resultSet.getInt(1);
+				}
+			}
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+		String sqltoaddbook = String.format("INSERT INTO address_book_contacts(book_id,contact_id) VALUES (%d,%d) ;",
+				book_id, id);
+		try {
+			int rowAffected = preparedStatement.executeUpdate(sqltoaddbook, preparedStatement.RETURN_GENERATED_KEYS);
+			if (rowAffected == 1) {
+				ResultSet resultSet = preparedStatement.getGeneratedKeys();
+				if (resultSet.next()) {
+					id = resultSet.getInt(2);
+				}
+			}
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+		try {
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (connection != null)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println(id);
+		Contact newContact = new Contact(firstname, lastname, address, city, state, zip, phone, email,
+				LocalDate.parse(date));
+		return newContact;
 	}
 
 }

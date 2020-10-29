@@ -236,4 +236,23 @@ public class AddressBookDirectory {
 	public List<Contact> readDirectoryForAColumn(String column, String value) {
 		return new AddressBookDirDBService().readAddressBooksForAColumn(addressBookDirectory, column, value);
 	}
+
+	public void addContactInDatabase(int i, String firstname, String lastname, String address, String city,
+			String state, String zip, String phone, String email, String date) {
+		Contact newContact = new AddressBookDirDBService().addContact(i, firstname, lastname, address, city, state, zip,
+				phone, email, date);
+		switch (i) {
+		case 1:
+			addressBookDirectory.get("Family").getContact().add(newContact);
+			break;
+		case 2:
+			addressBookDirectory.get("Friend").getContact().add(newContact);
+			break;
+		case 3:
+			addressBookDirectory.get("Profession").getContact().add(newContact);
+			break;
+		default:
+			System.out.println("No book found !");
+		}
+	}
 }
