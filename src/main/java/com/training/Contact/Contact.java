@@ -1,7 +1,5 @@
 package com.training.Contact;
 
-import java.time.LocalDate;
-
 public class Contact {
 	private String firstName;
 	private String lastName;
@@ -11,7 +9,7 @@ public class Contact {
 	private String zip;
 	private String phoneNo;
 	private String email;
-	private LocalDate date_added = null;
+	private String date_added = null;
 
 	public Contact(String firstName, String lastName, String address, String city, String state, String zip,
 			String phoneNo, String email) {
@@ -29,16 +27,16 @@ public class Contact {
 	}
 
 	public Contact(String firstname2, String lastname2, String address2, String city2, String state2, String zip2,
-			String phone_number, String email2, LocalDate date_added2) {
+			String phone_number, String email2, String date_added2) {
 		this(firstname2, lastname2, address2, city2, state2, zip2, phone_number, email2);
 		this.date_added = date_added2;
 	}
 
-	public LocalDate getDate_added() {
+	public String getDate_added() {
 		return date_added;
 	}
 
-	public void setDate_added(LocalDate date_added) {
+	public void setDate_added(String date_added) {
 		this.date_added = date_added;
 	}
 

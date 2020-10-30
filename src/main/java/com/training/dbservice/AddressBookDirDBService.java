@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,17 +14,22 @@ import com.training.AddressBook.AddressBook;
 import com.training.Contact.Contact;
 
 public class AddressBookDirDBService {
-
+	int counter = 0;
 	PreparedStatement preparedStatement = null;
 
-	private Connection getConnection() throws SQLException {
+	private synchronized Connection getConnection() throws SQLException {
+		counter++;
 		String jdbcUrl = "jdbc:mysql://localhost:3306/address_book_service";
 		String userName = "root";
 		String passWord = "Yudha@123";
 		Connection conn;
 		System.out.println("Connecting to Database : " + jdbcUrl);
+		System.out.println("Processing Thread : " + Thread.currentThread().getName()
+				+ " Connecting to Database with id : " + counter);
 		conn = DriverManager.getConnection(jdbcUrl, userName, passWord);
 		System.out.println("Connection is successful : " + conn);
+		System.out.println("Processing Thread : " + Thread.currentThread().getName() + " ID is " + counter
+				+ "Connecting is successful : " + conn);
 		return conn;
 	}
 
@@ -65,7 +70,7 @@ public class AddressBookDirDBService {
 				String zip = resultSet.getString("zip");
 				String phone_number = resultSet.getString("phone_number");
 				String email = resultSet.getString("email");
-				LocalDate date_added = resultSet.getDate("date_added").toLocalDate();
+				String date_added = resultSet.getDate("date_added").toString();
 				String book_type = resultSet.getString("book_type");
 				if (addressBookDirectory.containsKey(book_type)) {
 					addressBookDirectory.get(book_type).getContact().add(new Contact(firstname, lastname, address, city,
@@ -176,14 +181,15 @@ public class AddressBookDirDBService {
 						+ "('%s','%s','%s','%s','%s', %s, '%s','%s','%s') ;",
 				firstname, lastname, address, city, state, zip, phone, email, date);
 		Connection connection = null;
+		Statement statement = null;
 		int id = -1;
 		try {
 			connection = this.getConnection();
 			connection.setAutoCommit(false);
-			preparedStatement = connection.prepareStatement(sql);
-			int rowAffected = preparedStatement.executeUpdate(sql, preparedStatement.RETURN_GENERATED_KEYS);
+			statement = connection.createStatement();
+			int rowAffected = statement.executeUpdate(sql, preparedStatement.RETURN_GENERATED_KEYS);
 			if (rowAffected == 1) {
-				ResultSet resultSet = preparedStatement.getGeneratedKeys();
+				ResultSet resultSet = statement.getGeneratedKeys();
 				if (resultSet.next()) {
 					id = resultSet.getInt(1);
 				}
@@ -199,9 +205,9 @@ public class AddressBookDirDBService {
 		String sqltoaddbook = String.format("INSERT INTO address_book_contacts(book_id,contact_id) VALUES (%d,%d) ;",
 				book_id, id);
 		try {
-			int rowAffected = preparedStatement.executeUpdate(sqltoaddbook, preparedStatement.RETURN_GENERATED_KEYS);
+			int rowAffected = statement.executeUpdate(sqltoaddbook, preparedStatement.RETURN_GENERATED_KEYS);
 			if (rowAffected == 1) {
-				ResultSet resultSet = preparedStatement.getGeneratedKeys();
+				ResultSet resultSet = statement.getGeneratedKeys();
 				if (resultSet.next()) {
 					id = resultSet.getInt(2);
 				}
@@ -227,8 +233,7 @@ public class AddressBookDirDBService {
 			}
 		}
 		System.out.println(id);
-		Contact newContact = new Contact(firstname, lastname, address, city, state, zip, phone, email,
-				LocalDate.parse(date));
+		Contact newContact = new Contact(firstname, lastname, address, city, state, zip, phone, email, date);
 		return newContact;
 	}
 

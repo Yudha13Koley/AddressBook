@@ -1,6 +1,8 @@
 package com.capgemini.dbtests;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +19,7 @@ public class AddressBookDatabaseServiceTests {
 		ABD.readDirectory(IOService.DB_IO);
 		int n = ABD.getCountOFEntries();
 		ABD.printDirectory(IOService.CONSOLE_IO);
-		Assert.assertEquals(13, n);
+		Assert.assertEquals(12, n);
 	}
 
 	@Test
@@ -61,5 +63,23 @@ public class AddressBookDatabaseServiceTests {
 		ABD.addContactInDatabase(3, "Bina", "Kamal", "sadar natin laane", "Bangalore", "Karnataka", "489025",
 				"7277282884", "etgsgshs@gmail.com", "2020-10-29");
 		Assert.assertTrue(ABD.isSyncWithDatabase("Bina", "Kamal"));
+	}
+
+	@Test
+	public void givenADatabase_whenAddedMultipleConatact_returnsisSyncWithDatabase() {
+		AddressBookDirectory ABD = new AddressBookDirectory();
+		ABD.readDirectory(IOService.DB_IO);
+		Map<Integer, Contact> contactMap = new HashMap<>();
+		contactMap.put(1, new Contact("Bina", "Kamal", "sadar natin laane", "Bangalore", "Karnataka", "489025",
+				"7277282884", "etgsgshs@gmail.com", "2020-10-29"));
+		contactMap.put(2, new Contact("Binayak", "Kamal", "sadar natin laane", "Bangalore", "Karnataka", "489025",
+				"7277282884", "etgsgshs@gmail.com", "2020-10-29"));
+		contactMap.put(3, new Contact("Patal", "Kamal", "sadar natin laane", "Bangalore", "Karnataka", "489025",
+				"7277282884", "etgsgshs@gmail.com", "2020-10-29"));
+		ABD.addMultipleContactsInDatabase(contactMap);
+		int n = ABD.getCountOFEntries();
+		ABD.printDirectory(IOService.CONSOLE_IO);
+		Assert.assertEquals(15, n);
+
 	}
 }

@@ -255,4 +255,32 @@ public class AddressBookDirectory {
 			System.out.println("No book found !");
 		}
 	}
+
+	public void addMultipleContactsInDatabase(Map<Integer, Contact> contactMap) {
+		Map<Integer, Boolean> contactAdditionalStatus = new HashMap<>();
+		contactMap.forEach((book, contact) -> {
+			Runnable task = () -> {
+				contactAdditionalStatus.put(contact.hashCode(), false);
+				System.out.println("Employee Being Added : " + Thread.currentThread().getName());
+				try {
+					this.addContactInDatabase(book, contact.getFirstName(), contact.getLastName(), contact.getAddress(),
+							contact.getCity(), contact.getState(), contact.getZip(), contact.getPhoneNo(),
+							contact.getEmail(), contact.getDate_added());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				contactAdditionalStatus.put(contact.hashCode(), true);
+				System.out.println("Employee Added : " + Thread.currentThread().getName());
+			};
+			Thread thread = new Thread(task, contact.getFirstName());
+			thread.start();
+		});
+		while (contactAdditionalStatus.containsValue(false)) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
