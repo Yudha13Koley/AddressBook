@@ -2,6 +2,8 @@ package com.training.AddressBookDirectory;
 
 import java.util.*;
 
+import org.apache.commons.collections.map.HashedMap;
+
 import com.training.AddressBook.AddressBook;
 import com.training.Contact.Contact;
 import com.training.addressbookcsv.AddressBookDirCsvService;
@@ -11,13 +13,32 @@ import com.training.dbservice.AddressBookDirDBService;
 
 public class AddressBookDirectory {
 	private Map<String, AddressBook> addressBookDirectory = new HashMap<>();
+	private Map<String, List<Contact>> newAddressBook = new HashMap<>();
+
+	public Map<String, List<Contact>> getNewAddressBook() {
+		return newAddressBook;
+	}
+
+	public void setNewAddressBook() {
+		for (Map.Entry<String, AddressBook> entry : this.addressBookDirectory.entrySet()) {
+			this.newAddressBook.put(entry.getKey(), entry.getValue().getContact());
+		}
+	}
+
+	public Map<String, AddressBook> getAddressBookDirectory() {
+		return addressBookDirectory;
+	}
+
+	public void setAddressBookDirectory(Map<String, AddressBook> addressBookDirectory) {
+		this.addressBookDirectory = addressBookDirectory;
+	}
 
 	public AddressBookDirectory() {
 	}
 
 	public AddressBookDirectory(Map<String, AddressBook> addressBookDirectory) {
-		super();
-		this.addressBookDirectory = addressBookDirectory;
+		this();
+		this.addressBookDirectory = new HashMap<>(addressBookDirectory);
 	}
 
 	public enum IOService {
@@ -34,7 +55,7 @@ public class AddressBookDirectory {
 		if (ios.equals(IOService.CONSOLE_IO)) {
 			for (Map.Entry<String, AddressBook> entry : addressBookDirectory.entrySet()) {
 				System.out.println(entry.getKey());
-				System.out.println(entry.getValue());
+				System.out.println(entry.getValue().getContact());
 			}
 		} else if (ios.equals(IOService.FILE_IO)) {
 			new AddressBookFileIOService().printDirectoryInFile(addressBookDirectory);
@@ -281,6 +302,13 @@ public class AddressBookDirectory {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	public void setNewAddressBook(Map<String, List<Contact>> data) {
+		this.newAddressBook = new HashMap<>(data);
+		for (Map.Entry<String, List<Contact>> entry : this.newAddressBook.entrySet()) {
+			this.addressBookDirectory.put(entry.getKey(), new AddressBook(entry.getValue()));
 		}
 	}
 }

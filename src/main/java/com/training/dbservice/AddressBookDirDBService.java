@@ -45,7 +45,7 @@ public class AddressBookDirDBService {
 	}
 
 	public Map<String, AddressBook> readAddressBooks(Map<String, AddressBook> addressBookDirectory) {
-		String sql = "SELECT a.book_type,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
+		String sql = "SELECT a.book_type,id,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
 				+ "contacts b,address_book a,address_book_contacts c "
 				+ "WHERE a.address_book_id=c.book_id AND c.contact_id=b.id ;";
 		try {
@@ -62,6 +62,7 @@ public class AddressBookDirDBService {
 	private Map<String, AddressBook> getDirectory(ResultSet resultSet, Map<String, AddressBook> addressBookDirectory) {
 		try {
 			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
 				String firstname = resultSet.getString("firstname");
 				String lastname = resultSet.getString("lastname");
 				String address = resultSet.getString("address");
@@ -73,12 +74,12 @@ public class AddressBookDirDBService {
 				String date_added = resultSet.getDate("date_added").toString();
 				String book_type = resultSet.getString("book_type");
 				if (addressBookDirectory.containsKey(book_type)) {
-					addressBookDirectory.get(book_type).getContact().add(new Contact(firstname, lastname, address, city,
-							state, zip, phone_number, email, date_added));
+					addressBookDirectory.get(book_type).getContact().add(new Contact(id, firstname, lastname, address,
+							city, state, zip, phone_number, email, date_added));
 				} else {
 					addressBookDirectory.put(book_type, new AddressBook());
-					addressBookDirectory.get(book_type).getContact().add(new Contact(firstname, lastname, address, city,
-							state, zip, phone_number, email, date_added));
+					addressBookDirectory.get(book_type).getContact().add(new Contact(id, firstname, lastname, address,
+							city, state, zip, phone_number, email, date_added));
 				}
 			}
 		} catch (SQLException e) {
@@ -106,7 +107,7 @@ public class AddressBookDirDBService {
 
 	public Map<String, AddressBook> getContactFromDatabase(String firstname, String lastname) {
 		String sql = String.format(
-				"SELECT a.book_type,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
+				"SELECT a.book_type,id,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
 						+ "contacts b,address_book a,address_book_contacts c "
 						+ "WHERE a.address_book_id=c.book_id AND c.contact_id=b.id AND "
 						+ "firstname='%s' AND lastname='%s' ;",
@@ -126,7 +127,7 @@ public class AddressBookDirDBService {
 	public Map<String, AddressBook> readAddressBooksForADateRange(Map<String, AddressBook> addressBookDirectory,
 			String date) {
 		String sql = String.format(
-				"SELECT a.book_type,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
+				"SELECT a.book_type,id,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
 						+ "contacts b,address_book a,address_book_contacts c "
 						+ "WHERE a.address_book_id=c.book_id AND c.contact_id=b.id AND "
 						+ "date_added BETWEEN CAST('%s' AS DATE) AND DATE(NOW()) ;",
@@ -145,7 +146,7 @@ public class AddressBookDirDBService {
 	public List<Contact> readAddressBooksForAColumn(Map<String, AddressBook> addressBookDirectory, String column,
 			String value) {
 		String sql = String.format(
-				"SELECT a.book_type,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
+				"SELECT a.book_type,id,firstname,lastname,address,city,state,zip,phone_number,email,date_added FROM "
 						+ "contacts b,address_book a,address_book_contacts c "
 						+ "WHERE a.address_book_id=c.book_id AND c.contact_id=b.id AND " + "%s='%s' ;",
 				column, value);
@@ -233,7 +234,7 @@ public class AddressBookDirDBService {
 			}
 		}
 		System.out.println(id);
-		Contact newContact = new Contact(firstname, lastname, address, city, state, zip, phone, email, date);
+		Contact newContact = new Contact(id, firstname, lastname, address, city, state, zip, phone, email, date);
 		return newContact;
 	}
 

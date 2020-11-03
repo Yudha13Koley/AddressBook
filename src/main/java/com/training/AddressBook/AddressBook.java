@@ -9,7 +9,7 @@ public class AddressBook {
 	private List<Contact> contact = new LinkedList<>();
 
 	public AddressBook(List<Contact> contact) {
-		this.contact = contact;
+		this.contact = new ArrayList<>(contact);
 	}
 
 	public AddressBook() {

@@ -1,13 +1,15 @@
 package com.training.addressbookjsonservice;
 
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.training.AddressBook.AddressBook;
+import com.training.Contact.Contact;
 
 public class AddressBookDirJsonService {
 
@@ -18,7 +20,8 @@ public class AddressBookDirJsonService {
 			JsonReader reader = new JsonReader(new FileReader(SAMPLE_JSON_PATH));
 
 			Gson gson = new Gson();
-			Map<String, AddressBook> ab = gson.fromJson(reader, addressBookDirectory.getClass());
+			Map<String, AddressBook> ab = gson.fromJson(reader, new TypeToken<Map<String, List<Contact>>>() {
+			}.getType());
 			return ab;
 		} catch (IOException e) {
 			e.printStackTrace();

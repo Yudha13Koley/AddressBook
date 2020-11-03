@@ -1,6 +1,7 @@
 package com.training.Contact;
 
 public class Contact {
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String address;
@@ -26,10 +27,17 @@ public class Contact {
 	public Contact() {
 	}
 
-	public Contact(String firstname2, String lastname2, String address2, String city2, String state2, String zip2,
-			String phone_number, String email2, String date_added2) {
+	public Contact(int id, String firstname2, String lastname2, String address2, String city2, String state2,
+			String zip2, String phone_number, String email2, String date_added2) {
 		this(firstname2, lastname2, address2, city2, state2, zip2, phone_number, email2);
 		this.date_added = date_added2;
+		this.id = id;
+	}
+
+	public Contact(String firstname, String lastname, String address, String city, String state, String zip,
+			String phone_number, String email, String date) {
+		this(firstname, lastname, address, city, state, zip, phone_number, email);
+		this.date_added = date;
 	}
 
 	public String getDate_added() {
@@ -166,9 +174,9 @@ public class Contact {
 
 	@Override
 	public String toString() {
-		return "Contact [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
-				+ ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + ", date_added="
-				+ date_added + "] \n";
+		return "Contact [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address
+				+ ", city=" + city + ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email
+				+ ", date_added=" + date_added + "] \n";
 	}
 
 }

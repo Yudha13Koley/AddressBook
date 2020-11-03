@@ -1,0 +1,126 @@
+{
+  "Profession": [
+    {
+      "id": 8,
+      "firstName": "Ram",
+      "lastName": "Anand",
+      "city": "Kota",
+      "state": "Rajasthan",
+      "date_added": "2018-05-15"
+    },
+    {
+      "id": 9,
+      "firstName": "Ram",
+      "lastName": "Khan",
+      "address": "89/1 dharamshala haman road",
+      "city": "Kota",
+      "state": "Rajasthan",
+      "date_added": "2019-05-15"
+    },
+    {
+      "id": 10,
+      "firstName": "Ram",
+      "lastName": "anand",
+      "city": "Udaypur",
+      "state": "Rajasthan",
+      "date_added": "2018-05-15"
+    },
+    {
+      "id": 11,
+      "firstName": "Bina",
+      "lastName": "Kamal",
+      "address": "sadar natin laane",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "zip": "489025",
+      "phoneNo": "7277282884",
+      "email": "etgsgshs@gmail.com",
+      "date_added": "2020-10-29"
+    }
+  ],
+  "Friend": [
+    {
+      "id": 3,
+      "firstName": "Kamal",
+      "lastName": "Rao",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "date_added": "2019-05-15"
+    },
+    {
+      "id": 4,
+      "firstName": "Aditi",
+      "lastName": "Sharma",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "date_added": "2018-05-15"
+    },
+    {
+      "id": 5,
+      "firstName": "Ram",
+      "lastName": "Malik",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "date_added": "2019-05-15"
+    },
+    {
+      "id": 12,
+      "firstName": "Sujay",
+      "lastName": "Chatterjee",
+      "city": "Howrah",
+      "state": "West Bengal",
+      "date_added": "2020-05-11"
+    },
+    {
+      "id": 9,
+      "firstName": "Ram",
+      "lastName": "Khan",
+      "address": "89/1 dharamshala haman road",
+      "city": "Kota",
+      "state": "Rajasthan",
+      "date_added": "2019-05-15"
+    },
+    {
+      "id": 13,
+      "firstName": "Bilal",
+      "lastName": "Ahmed",
+      "address": "sadar ghosh laane",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "zip": "489025",
+      "phoneNo": "7277282884",
+      "email": "etgsgshs@gmail.com",
+      "date_added": "2020-10-29"
+    }
+  ],
+  "Family": [
+    {
+      "id": 1,
+      "firstName": "Nitin",
+      "lastName": "Rana",
+      "address": "626/1/1/1 Sarat Chatterjee Road",
+      "city": "Kolkata",
+      "state": "West Bengal",
+      "zip": "711102",
+      "phoneNo": "912356789",
+      "email": "abc.xyz@co.in",
+      "date_added": "2018-05-15"
+    },
+    {
+      "id": 7,
+      "firstName": "Yudhajit",
+      "lastName": "Koley",
+      "city": "Howrah",
+      "state": "West Bengal",
+      "date_added": "2019-05-15"
+    },
+    {
+      "id": 11,
+      "firstName": "Susamoy",
+      "lastName": "Chatterjee",
+      "city": "Howrah",
+      "state": "West Bengal",
+      "date_added": "2020-05-11"
+    }
+  ]
+}
