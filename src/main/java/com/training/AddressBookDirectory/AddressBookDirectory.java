@@ -5,6 +5,7 @@ import java.util.*;
 import org.apache.commons.collections.map.HashedMap;
 
 import com.training.AddressBook.AddressBook;
+import com.training.Contact.BookAndContactDetails;
 import com.training.Contact.Contact;
 import com.training.addressbookcsv.AddressBookDirCsvService;
 import com.training.addressbookfileio.AddressBookFileIOService;
@@ -277,26 +278,28 @@ public class AddressBookDirectory {
 		}
 	}
 
-	public void addMultipleContactsInDatabase(Map<Integer, Contact> contactMap) {
+	public void addMultipleContactsInDatabase(List<BookAndContactDetails> contactAndBookList) {
 		Map<Integer, Boolean> contactAdditionalStatus = new HashMap<>();
-		contactMap.forEach((key, value) -> {
-			contactAdditionalStatus.put(value.hashCode(), false);
+		contactAndBookList.forEach(details -> {
+			contactAdditionalStatus.put(details.getContact().hashCode(), false);
 		});
 		AddressBookDirDBService dbservice = new AddressBookDirDBService();
-		contactMap.forEach((book, contact) -> {
+		contactAndBookList.forEach(contact -> {
 			Runnable task = () -> {
 				System.out.println("Employee Being Added : " + Thread.currentThread().getName());
 				try {
-					this.addContactInDatabase(dbservice, book, contact.getFirstName(), contact.getLastName(),
-							contact.getAddress(), contact.getCity(), contact.getState(), contact.getZip(),
-							contact.getPhoneNo(), contact.getEmail(), contact.getDate_added());
+					this.addContactInDatabase(dbservice, contact.getTypeid(), contact.getContact().getFirstName(),
+							contact.getContact().getLastName(), contact.getContact().getAddress(),
+							contact.getContact().getCity(), contact.getContact().getState(),
+							contact.getContact().getZip(), contact.getContact().getPhoneNo(),
+							contact.getContact().getEmail(), contact.getContact().getDate_added());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				contactAdditionalStatus.put(contact.hashCode(), true);
+				contactAdditionalStatus.put(contact.getContact().hashCode(), true);
 				System.out.println("Employee Added : " + Thread.currentThread().getName());
 			};
-			Thread thread = new Thread(task, contact.getFirstName());
+			Thread thread = new Thread(task, contact.getContact().getFirstName());
 			thread.start();
 		});
 		while (contactAdditionalStatus.containsValue(false)) {

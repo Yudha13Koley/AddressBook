@@ -2,6 +2,7 @@ package com.capgemini.dbtests;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.training.AddressBookDirectory.AddressBookDirectory;
 import com.training.AddressBookDirectory.AddressBookDirectory.IOService;
+import com.training.Contact.BookAndContactDetails;
+import com.training.Contact.BookAndContactDetails.BookType;
 import com.training.Contact.Contact;
 import com.training.dbservice.AddressBookDirDBService;
 
@@ -82,14 +85,17 @@ public class AddressBookDatabaseServiceTests {
 	public void givenADatabase_whenAddedMultipleConatact_returnCountOFContacs() {
 		AddressBookDirectory ABD = new AddressBookDirectory();
 		ABD.readDirectory(IOService.DB_IO);
-		Map<Integer, Contact> contactMap = new HashMap<>();
-		contactMap.put(1, new Contact(0, "Bina", "Kamal", "sadar natin laane", "Bangalore", "Karnataka", "489025",
-				"7277282884", "etgsgshs@gmail.com", "2020-10-29"));
-		contactMap.put(2, new Contact(0, "Binayak", "Kamal", "sadar natin laane", "Bangalore", "Karnataka", "489025",
-				"7277282884", "etgsgshs@gmail.com", "2020-10-29"));
-		contactMap.put(3, new Contact(0, "Patal", "Kamal", "sadar natin laane", "Bangalore", "Karnataka", "489025",
-				"7277282884", "etgsgshs@gmail.com", "2020-10-29"));
-		ABD.addMultipleContactsInDatabase(contactMap);
+		List<BookAndContactDetails> contactAndBookList = new ArrayList<>();
+		contactAndBookList
+				.add(new BookAndContactDetails(BookType.Family, new Contact(0, "Bina", "Kamal", "sadar natin laane",
+						"Bangalore", "Karnataka", "489025", "7277282884", "etgsgshs@gmail.com", "2020-10-29")));
+		contactAndBookList
+				.add(new BookAndContactDetails(BookType.Family, new Contact(0, "Binayak", "Kamal", "sadar natin laane",
+						"Bangalore", "Karnataka", "489025", "7277282884", "etgsgshs@gmail.com", "2020-10-29")));
+		contactAndBookList.add(
+				new BookAndContactDetails(BookType.Profession, new Contact(0, "Patal", "Kamal", "sadar natin laane",
+						"Bangalore", "Karnataka", "489025", "7277282884", "etgsgshs@gmail.com", "2020-10-29")));
+		ABD.addMultipleContactsInDatabase(contactAndBookList);
 		int n = ABD.getCountOFEntries();
 		ABD.printDirectory(IOService.CONSOLE_IO);
 		Assert.assertEquals(15, n);
