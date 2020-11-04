@@ -177,65 +177,89 @@ public class AddressBookDirDBService {
 
 	public Contact addContact(int book_id, String firstname, String lastname, String address, String city, String state,
 			String zip, String phone, String email, String date) {
-		String sql = String.format(
-				"INSERT INTO contacts(firstname,lastname,address,city,state,zip,phone_number,email,date_added) VALUES "
-						+ "('%s','%s','%s','%s','%s', %s, '%s','%s','%s') ;",
-				firstname, lastname, address, city, state, zip, phone, email, date);
-		Connection connection = null;
-		Statement statement = null;
-		int id = -1;
+		Connection[] connection = new Connection[] { null };
 		try {
-			connection = this.getConnection();
-			connection.setAutoCommit(false);
-			statement = connection.createStatement();
-			int rowAffected = statement.executeUpdate(sql, preparedStatement.RETURN_GENERATED_KEYS);
-			if (rowAffected == 1) {
-				ResultSet resultSet = statement.getGeneratedKeys();
-				if (resultSet.next()) {
-					id = resultSet.getInt(1);
-				}
-			}
-		} catch (SQLException e) {
+			connection[0] = this.getConnection();
+			connection[0].setAutoCommit(false);
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+		Integer[] contact_id = new Integer[] { -1 };
+		boolean[] status = { false };
+		synchronized (this) {
+			String sql = String.format(
+					"INSERT INTO contacts(firstname,lastname,address,city,state,zip,phone_number,email,date_added) VALUES "
+							+ "('%s','%s','%s','%s','%s', %s, '%s','%s','%s') ;",
+					firstname, lastname, address, city, state, zip, phone, email, date);
+			contact_id[0] = insertIntoContactsTableAndGetId(sql, connection[0]);
+
+			Runnable task1 = () -> {
+				this.insertIntoAddressBookContactsTable(book_id, contact_id[0], connection[0]);
+				status[0] = true;
+			};
+			Thread thread1 = new Thread(task1);
+			thread1.start();
+		}
+		while (status[0] == false) {
 			try {
-				connection.rollback();
-			} catch (SQLException e1) {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			e.printStackTrace();
-		}
-		String sqltoaddbook = String.format("INSERT INTO address_book_contacts(book_id,contact_id) VALUES (%d,%d) ;",
-				book_id, id);
-		try {
-			int rowAffected = statement.executeUpdate(sqltoaddbook, preparedStatement.RETURN_GENERATED_KEYS);
-			if (rowAffected == 1) {
-				ResultSet resultSet = statement.getGeneratedKeys();
-				if (resultSet.next()) {
-					id = resultSet.getInt(2);
-				}
-			}
-		} catch (SQLException e) {
-			try {
-				connection.rollback();
-			} catch (SQLException e1) {
-				e.printStackTrace();
-			}
-			e.printStackTrace();
 		}
 		try {
-			connection.commit();
+			connection[0].commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			try {
 				if (connection != null)
-					connection.close();
+					connection[0].close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		System.out.println(id);
-		Contact newContact = new Contact(id, firstname, lastname, address, city, state, zip, phone, email, date);
+		Contact newContact = new Contact(contact_id[0], firstname, lastname, address, city, state, zip, phone, email,
+				date);
 		return newContact;
+	}
+
+	private synchronized void insertIntoAddressBookContactsTable(int book_id, Integer contact_id,
+			Connection connection) {
+		String sqltoaddbook = String.format("INSERT INTO address_book_contacts(book_id,contact_id) VALUES (%d,%d) ;",
+				book_id, contact_id);
+		try {
+			preparedStatement = connection.prepareStatement(sqltoaddbook);
+			int rowAffected = preparedStatement.executeUpdate(sqltoaddbook, preparedStatement.RETURN_GENERATED_KEYS);
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
+
+	private synchronized Integer insertIntoContactsTableAndGetId(String sql, Connection connection) {
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			int rowAffected = preparedStatement.executeUpdate(sql, preparedStatement.RETURN_GENERATED_KEYS);
+			if (rowAffected == 1) {
+				ResultSet resultSet = preparedStatement.getGeneratedKeys();
+				if (resultSet.next()) {
+					return resultSet.getInt(1);
+				}
+			}
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

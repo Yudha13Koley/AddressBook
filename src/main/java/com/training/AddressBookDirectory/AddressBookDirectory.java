@@ -258,10 +258,10 @@ public class AddressBookDirectory {
 		return new AddressBookDirDBService().readAddressBooksForAColumn(addressBookDirectory, column, value);
 	}
 
-	public void addContactInDatabase(int i, String firstname, String lastname, String address, String city,
-			String state, String zip, String phone, String email, String date) {
-		Contact newContact = new AddressBookDirDBService().addContact(i, firstname, lastname, address, city, state, zip,
-				phone, email, date);
+	public void addContactInDatabase(AddressBookDirDBService dbservice, int i, String firstname, String lastname,
+			String address, String city, String state, String zip, String phone, String email, String date) {
+		Contact newContact = dbservice.addContact(i, firstname, lastname, address, city, state, zip, phone, email,
+				date);
 		switch (i) {
 		case 1:
 			addressBookDirectory.get("Family").getContact().add(newContact);
@@ -279,14 +279,17 @@ public class AddressBookDirectory {
 
 	public void addMultipleContactsInDatabase(Map<Integer, Contact> contactMap) {
 		Map<Integer, Boolean> contactAdditionalStatus = new HashMap<>();
+		contactMap.forEach((key, value) -> {
+			contactAdditionalStatus.put(value.hashCode(), false);
+		});
+		AddressBookDirDBService dbservice = new AddressBookDirDBService();
 		contactMap.forEach((book, contact) -> {
 			Runnable task = () -> {
-				contactAdditionalStatus.put(contact.hashCode(), false);
 				System.out.println("Employee Being Added : " + Thread.currentThread().getName());
 				try {
-					this.addContactInDatabase(book, contact.getFirstName(), contact.getLastName(), contact.getAddress(),
-							contact.getCity(), contact.getState(), contact.getZip(), contact.getPhoneNo(),
-							contact.getEmail(), contact.getDate_added());
+					this.addContactInDatabase(dbservice, book, contact.getFirstName(), contact.getLastName(),
+							contact.getAddress(), contact.getCity(), contact.getState(), contact.getZip(),
+							contact.getPhoneNo(), contact.getEmail(), contact.getDate_added());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

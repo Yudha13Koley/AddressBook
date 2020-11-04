@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import com.training.AddressBookDirectory.AddressBookDirectory;
 import com.training.AddressBookDirectory.AddressBookDirectory.IOService;
 import com.training.Contact.Contact;
+import com.training.dbservice.AddressBookDirDBService;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
@@ -37,7 +38,7 @@ public class AddressBookDatabaseServiceTests {
 	public void givenADatabase_whenUpdatedDataForAContact_returnsIsSyncWithDatabase() {
 		AddressBookDirectory ABD = new AddressBookDirectory();
 		ABD.readDirectory(IOService.DB_IO);
-		ABD.updateContactInDatabase("Ram", "Khan", "89/1 dharamshala haman road");
+		ABD.updateContactInDatabase("Ram", "Khan", "89/1 lindsey street");
 		boolean b = ABD.isSyncWithDatabase("Ram", "Khan");
 		Assert.assertTrue(b);
 	}
@@ -70,8 +71,9 @@ public class AddressBookDatabaseServiceTests {
 	@Test
 	public void givenADatabase_whenAddedAConatact_returnsisSyncWithDatabase() {
 		AddressBookDirectory ABD = new AddressBookDirectory();
+		AddressBookDirDBService dbService = new AddressBookDirDBService();
 		ABD.readDirectory(IOService.DB_IO);
-		ABD.addContactInDatabase(3, "Bina", "Kamal", "sadar natin laane", "Bangalore", "Karnataka", "489025",
+		ABD.addContactInDatabase(dbService, 3, "Bina", "Kamal", "sadar natin laane", "Bangalore", "Karnataka", "489025",
 				"7277282884", "etgsgshs@gmail.com", "2020-10-29");
 		Assert.assertTrue(ABD.isSyncWithDatabase("Bina", "Kamal"));
 	}
@@ -91,18 +93,17 @@ public class AddressBookDatabaseServiceTests {
 		int n = ABD.getCountOFEntries();
 		ABD.printDirectory(IOService.CONSOLE_IO);
 		Assert.assertEquals(15, n);
-
 	}
 
 	@Test
 	public void givenADatabase_whenRetrievedData_givesADBjsonFile() {
-		AddressBookDirectory ABD = new AddressBookDirectory();
-		ABD.readDirectory(IOService.DB_IO);
-		ABD.setNewAddressBook();
+		AddressBookDirectory addressBookDirectoryService = new AddressBookDirectory();
+		addressBookDirectoryService.readDirectory(IOService.DB_IO);
+		addressBookDirectoryService.setNewAddressBook();
 		try {
 			FileWriter writer = new FileWriter("./contactDB.json");
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			String str = gson.toJson(ABD.getNewAddressBook());
+			String str = gson.toJson(addressBookDirectoryService.getNewAddressBook());
 			writer.write(str);
 			writer.close();
 		} catch (IOException e) {
