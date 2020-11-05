@@ -11,7 +11,7 @@ import org.junit.Test;
 import com.training.AddressBook.AddressBook;
 import com.training.AddressBookDirectory.AddressBookDirectory;
 import com.training.AddressBookDirectory.AddressBookDirectory.IOService;
-import com.training.Contact.Contact;
+import com.training.contact.Contact;
 
 public class AddressBookDirectoryTest {
 

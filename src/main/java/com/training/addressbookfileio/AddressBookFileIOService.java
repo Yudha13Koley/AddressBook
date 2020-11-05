@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.google.common.io.Files;
 import com.training.AddressBook.AddressBook;
-import com.training.Contact.Contact;
+import com.training.contact.Contact;
 
 public class AddressBookFileIOService {
 	public static String DIR_FILE_NAME = "DirectoryFile.txt";

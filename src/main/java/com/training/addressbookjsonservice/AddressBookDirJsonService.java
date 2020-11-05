@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.training.AddressBook.AddressBook;
-import com.training.Contact.Contact;
+import com.training.contact.Contact;
 
 public class AddressBookDirJsonService {
 

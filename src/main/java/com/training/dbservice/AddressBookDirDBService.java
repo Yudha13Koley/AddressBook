@@ -5,13 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import com.training.AddressBook.AddressBook;
-import com.training.Contact.Contact;
+import com.training.contact.Contact;
 
 public class AddressBookDirDBService {
 	int counter = 0;

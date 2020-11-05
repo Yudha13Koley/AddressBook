@@ -27,7 +27,19 @@
     },
     {
       "id": 11,
-      "firstName": "Bina",
+      "firstName": "Raman",
+      "lastName": "Das",
+      "address": "sadar natin laane",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "zip": "489025",
+      "phoneNo": "7277282884",
+      "email": "etgsgshs@gmail.com",
+      "date_added": "2020-10-29"
+    },
+    {
+      "id": 12,
+      "firstName": "Patal",
       "lastName": "Kamal",
       "address": "sadar natin laane",
       "city": "Bangalore",
@@ -121,6 +133,30 @@
       "city": "Howrah",
       "state": "West Bengal",
       "date_added": "2020-05-11"
+    },
+    {
+      "id": 12,
+      "firstName": "Binayak",
+      "lastName": "Kamal",
+      "address": "sadar natin laane",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "zip": "489025",
+      "phoneNo": "7277282884",
+      "email": "etgsgshs@gmail.com",
+      "date_added": "2020-10-29"
+    },
+    {
+      "id": 13,
+      "firstName": "Bina",
+      "lastName": "Kamal",
+      "address": "sadar natin laane",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "zip": "489025",
+      "phoneNo": "7277282884",
+      "email": "etgsgshs@gmail.com",
+      "date_added": "2020-10-29"
     }
   ]
 }

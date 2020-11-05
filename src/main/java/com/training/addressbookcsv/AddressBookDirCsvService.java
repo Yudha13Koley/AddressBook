@@ -8,7 +8,7 @@ import java.util.*;
 
 import com.opencsv.CSVWriter;
 import com.training.AddressBook.AddressBook;
-import com.training.Contact.Contact;
+import com.training.contact.Contact;
 
 public class AddressBookDirCsvService {
 	private static final String FILE = "./dirList.csv";

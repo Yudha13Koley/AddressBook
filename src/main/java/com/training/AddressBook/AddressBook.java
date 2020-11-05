@@ -3,7 +3,7 @@ package com.training.AddressBook;
 import java.util.*;
 import java.util.function.Predicate;
 
-import com.training.Contact.Contact;
+import com.training.contact.Contact;
 
 public class AddressBook {
 	private List<Contact> contact = new LinkedList<>();

@@ -1,4 +1,4 @@
-package com.training.Contact;
+package com.training.contact;
 
 public class Contact {
 	private int id;
@@ -38,6 +38,14 @@ public class Contact {
 			String phone_number, String email, String date) {
 		this(firstname, lastname, address, city, state, zip, phone_number, email);
 		this.date_added = date;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getDate_added() {

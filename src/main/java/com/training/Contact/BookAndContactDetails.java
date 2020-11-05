@@ -1,4 +1,4 @@
-package com.training.Contact;
+package com.training.contact;
 
 public class BookAndContactDetails {
 
@@ -9,6 +9,7 @@ public class BookAndContactDetails {
 	private BookType type;
 	private Contact contact;
 	private int typeid;
+	private String bookName;
 
 	public BookAndContactDetails(BookType type, Contact contact) {
 		super();
@@ -16,11 +17,22 @@ public class BookAndContactDetails {
 		this.contact = contact;
 		if (type.equals(BookType.Family)) {
 			this.setTypeid(1);
+			this.bookName = "Family";
 		} else if (type.equals(BookType.Friend)) {
 			this.setTypeid(2);
+			this.bookName = "Friend";
 		} else if (type.equals(BookType.Profession)) {
 			this.setTypeid(3);
+			this.bookName = "Profession";
 		}
+	}
+
+	public String getBookName() {
+		return bookName;
+	}
+
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
 	}
 
 	public BookType getType() {

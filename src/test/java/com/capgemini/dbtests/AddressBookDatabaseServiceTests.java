@@ -17,9 +17,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.training.AddressBookDirectory.AddressBookDirectory;
 import com.training.AddressBookDirectory.AddressBookDirectory.IOService;
-import com.training.Contact.BookAndContactDetails;
-import com.training.Contact.BookAndContactDetails.BookType;
-import com.training.Contact.Contact;
+import com.training.contact.BookAndContactDetails;
+import com.training.contact.Contact;
+import com.training.contact.BookAndContactDetails.BookType;
 import com.training.dbservice.AddressBookDirDBService;
 
 import io.restassured.RestAssured;
@@ -123,7 +123,7 @@ public class AddressBookDatabaseServiceTests {
 		RestAssured.port = 3000;
 	}
 
-	public Map<String, List<Contact>> getEmployee() {
+	public Map<String, List<Contact>> getContacts() {
 		List<String> booklist = Arrays.asList(new String[] { "Family", "Friend", "Profession" });
 		Map<String, Boolean> statusCodes = new HashMap<>();
 		Map<String, List<Contact>> directory = new HashMap<>();
@@ -138,17 +138,63 @@ public class AddressBookDatabaseServiceTests {
 		return directory;
 	}
 
-	private Response addEmployeeToJsonServer(Contact contact, String bookname) {
+	private boolean addContactToJsonServer(Contact contact, String bookname, AddressBookDirectory dir) {
 		String contactJson = new GsonBuilder().setPrettyPrinting().create().toJson(contact);
 		RequestSpecification request = RestAssured.given();
 		request.header("Content-type", "application/json");
 		request.body(contactJson);
-		return request.post("/" + bookname);
+		Response response = request.post("/" + bookname);
+		int statusCode = response.getStatusCode();
+		Contact newAddedContact = new Gson().fromJson(response.asString(), Contact.class);
+		dir.getAddressBookDirectory().get(bookname).getContact().add(newAddedContact);
+		dir.getNewAddressBook().get(bookname).add(newAddedContact);
+		boolean result = this.isSyncWithJsonServer(newAddedContact, bookname, dir);
+		return result && (statusCode == 201);
+	}
+
+	private boolean isSyncWithJsonServer(Contact newAddedContact, String bookname, AddressBookDirectory dir) {
+		boolean result = false;
+		for (Contact contact : dir.getAddressBookDirectory().get(bookname).getContact()) {
+			if (contact.equals(newAddedContact))
+				result = true;
+		}
+		return result;
+	}
+
+	private boolean addMultipleContactToJsonServer(List<BookAndContactDetails> contactAndBookList,
+			AddressBookDirectory dir) {
+		Map<Integer, Boolean> contactAdditionalStatus = new HashMap<>();
+		contactAndBookList.forEach(details -> {
+			contactAdditionalStatus.put(details.getContact().hashCode(), false);
+		});
+		contactAndBookList.forEach(contact -> {
+			Runnable task = () -> {
+				System.out.println("Contact Being Added : " + Thread.currentThread().getName());
+				boolean status = addContactToJsonServer(contact.getContact(), contact.getBookName(), dir);
+				if (status) {
+					contactAdditionalStatus.put(contact.getContact().hashCode(), true);
+				}
+				System.out.println("Contact Added : " + Thread.currentThread().getName());
+			};
+			Thread thread = new Thread(task, contact.getContact().getFirstName());
+			thread.start();
+		});
+		while (contactAdditionalStatus.containsValue(false)) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		if (!contactAdditionalStatus.containsValue(false))
+			return true;
+		else
+			return false;
 	}
 
 	@Test
 	public void givenContactDetailsInJsonServer_whenRetrieved_shouldReturnNoOfCounts() {
-		Map<String, List<Contact>> data = getEmployee();
+		Map<String, List<Contact>> data = getContacts();
 		AddressBookDirectory dir = new AddressBookDirectory();
 		dir.setNewAddressBook(data);
 		int entries = dir.getCountOFEntries();
@@ -158,20 +204,37 @@ public class AddressBookDatabaseServiceTests {
 
 	@Test
 	public void givenContactDetailsInJsonServer_whenAddedAConatct_shouldReturnNoOfCountsAndResponseCode() {
-		Map<String, List<Contact>> data = getEmployee();
+		Map<String, List<Contact>> data = getContacts();
 		AddressBookDirectory dir = new AddressBookDirectory();
 		dir.setNewAddressBook(data);
-		Contact contact = new Contact("Bina", "Kamal", "sadar natin laane", "Bangalore", "Karnataka", "489025",
+		Contact contact = new Contact("Raman", "Das", "sadar natin laane", "Bangalore", "Karnataka", "489025",
 				"7277282884", "etgsgshs@gmail.com", "2020-10-29");
-		Response response = addEmployeeToJsonServer(contact, "Profession");
-		int statusCode = response.getStatusCode();
-		Assert.assertEquals(201, statusCode);
-		Contact newAddedContact = new Gson().fromJson(response.asString(), Contact.class);
-		dir.getAddressBookDirectory().get("Profession").getContact().add(newAddedContact);
-		dir.getNewAddressBook().get("Profession").add(newAddedContact);
+		boolean result = addContactToJsonServer(contact, "Profession", dir);
+		Assert.assertEquals(true, result);
 		dir.printDirectory(IOService.CONSOLE_IO);
 		int entries = dir.getCountOFEntries();
 		Assert.assertEquals(13, entries);
+	}
+
+	@Test
+	public void givenContactDetailsInJsonServer_whenAddedMultipleConatct_shouldReturnNoOfCounts() {
+		Map<String, List<Contact>> data = getContacts();
+		AddressBookDirectory dir = new AddressBookDirectory();
+		dir.setNewAddressBook(data);
+		List<BookAndContactDetails> contactAndBookList = new ArrayList<>();
+		contactAndBookList
+				.add(new BookAndContactDetails(BookType.Family, new Contact(0, "Bina", "Kamal", "sadar natin laane",
+						"Bangalore", "Karnataka", "489025", "7277282884", "etgsgshs@gmail.com", "2020-10-29")));
+		contactAndBookList
+				.add(new BookAndContactDetails(BookType.Family, new Contact(0, "Binayak", "Kamal", "sadar natin laane",
+						"Bangalore", "Karnataka", "489025", "7277282884", "etgsgshs@gmail.com", "2020-10-29")));
+		contactAndBookList.add(
+				new BookAndContactDetails(BookType.Profession, new Contact(0, "Patal", "Kamal", "sadar natin laane",
+						"Bangalore", "Karnataka", "489025", "7277282884", "etgsgshs@gmail.com", "2020-10-29")));
+		boolean result = addMultipleContactToJsonServer(contactAndBookList, dir);
+		Assert.assertEquals(true, result);
+		dir.printDirectory(IOService.CONSOLE_IO);
+		Assert.assertEquals(16, dir.getCountOFEntries());
 	}
 
 }
