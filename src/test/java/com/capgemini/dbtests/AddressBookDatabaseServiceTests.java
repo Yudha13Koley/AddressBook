@@ -192,6 +192,32 @@ public class AddressBookDatabaseServiceTests {
 			return false;
 	}
 
+	private boolean updateEntriesInJsonServer(String firstname, String lastname, String column, String columnvalue,
+			AddressBookDirectory dir) {
+		dir.updateEntriesInDirectory(firstname, lastname, column, columnvalue);
+		List<BookAndContactDetails> list = dir.getContactAndBookDetailsByName(firstname, lastname);
+		Map<String, Boolean> updateStatus = new HashMap<>();
+		list.forEach(details -> {
+			updateStatus.put(details.getContact().getFirstName(), false);
+		});
+		list.forEach(details -> {
+			String contactJson = new Gson().toJson(details.getContact());
+			RequestSpecification request = RestAssured.given();
+			request.header("Content-type", "application/json");
+			request.body(contactJson);
+			Response response = request.put("/" + details.getBookName() + "/" + details.getContact().getId());
+			boolean isSync = isSyncWithJsonServer(new Gson().fromJson(response.asString(), Contact.class),
+					details.getBookName(), dir);
+			if (response.getStatusCode() == 200 && isSync) {
+				updateStatus.put(details.getContact().getFirstName(), true);
+			}
+		});
+		if (!updateStatus.containsValue(false))
+			return true;
+		else
+			return false;
+	}
+
 	@Test
 	public void givenContactDetailsInJsonServer_whenRetrieved_shouldReturnNoOfCounts() {
 		Map<String, List<Contact>> data = getContacts();
@@ -235,6 +261,17 @@ public class AddressBookDatabaseServiceTests {
 		Assert.assertEquals(true, result);
 		dir.printDirectory(IOService.CONSOLE_IO);
 		Assert.assertEquals(16, dir.getCountOFEntries());
+	}
+
+	@Test
+	public void givenContactDetailsInJsonServer_whenUpdatedContacts_shouldSyncWithJsonServer() {
+		Map<String, List<Contact>> data = getContacts();
+		AddressBookDirectory dir = new AddressBookDirectory();
+		dir.setNewAddressBook(data);
+		dir.printDirectory(IOService.CONSOLE_IO);
+		boolean result = updateEntriesInJsonServer("ram", "khan", "address", "11/2 sardar ballavbhai road", dir);
+		dir.printDirectory(IOService.CONSOLE_IO);
+		Assert.assertTrue(result);
 	}
 
 }

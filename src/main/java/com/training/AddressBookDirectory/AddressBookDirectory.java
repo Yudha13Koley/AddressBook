@@ -7,6 +7,7 @@ import com.training.addressbookcsv.AddressBookDirCsvService;
 import com.training.addressbookfileio.AddressBookFileIOService;
 import com.training.addressbookjsonservice.AddressBookDirJsonService;
 import com.training.contact.BookAndContactDetails;
+import com.training.contact.BookAndContactDetails.BookType;
 import com.training.contact.Contact;
 import com.training.dbservice.AddressBookDirDBService;
 
@@ -314,5 +315,32 @@ public class AddressBookDirectory {
 		for (Map.Entry<String, List<Contact>> entry : this.newAddressBook.entrySet()) {
 			this.addressBookDirectory.put(entry.getKey(), new AddressBook(entry.getValue()));
 		}
+	}
+
+	public void updateEntriesInDirectory(String firstname, String lastname, String column, String columnvalue) {
+		List<BookAndContactDetails> bookAndContactList = this.getContactAndBookDetailsByName(firstname, lastname);
+		bookAndContactList.forEach(ContactDetails -> {
+			if (column.equalsIgnoreCase("address")) {
+				ContactDetails.getContact().setAddress(columnvalue);
+			}
+		});
+	}
+
+	public List<BookAndContactDetails> getContactAndBookDetailsByName(String firstname, String lastname) {
+		List<BookAndContactDetails> list = new ArrayList<>();
+		for (Map.Entry<String, AddressBook> entry : this.addressBookDirectory.entrySet()) {
+			for (Contact contact : entry.getValue().getContact()) {
+				if (contact.getFirstName().equalsIgnoreCase(firstname)
+						&& contact.getLastName().equalsIgnoreCase(lastname)) {
+					if (entry.getKey().equalsIgnoreCase("Family"))
+						list.add(new BookAndContactDetails(BookType.Family, contact));
+					else if (entry.getKey().equalsIgnoreCase("Friend"))
+						list.add(new BookAndContactDetails(BookType.Friend, contact));
+					else if (entry.getKey().equalsIgnoreCase("Profession"))
+						list.add(new BookAndContactDetails(BookType.Profession, contact));
+				}
+			}
+		}
+		return list;
 	}
 }

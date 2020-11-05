@@ -12,7 +12,7 @@
       "id": 9,
       "firstName": "Ram",
       "lastName": "Khan",
-      "address": "89/1 lindsey street",
+      "address": "11/2 sardar ballavbhai road",
       "city": "Kota",
       "state": "Rajasthan",
       "date_added": "2019-05-15"
@@ -55,6 +55,7 @@
       "id": 3,
       "firstName": "Kamal",
       "lastName": "Rao",
+      "address": "123 sadar boxi lane",
       "city": "Bangalore",
       "state": "Karnataka",
       "date_added": "2019-05-15"
@@ -63,6 +64,7 @@
       "id": 4,
       "firstName": "Aditi",
       "lastName": "Sharma",
+      "address": "221 B baker street",
       "city": "Mumbai",
       "state": "Maharashtra",
       "date_added": "2018-05-15"
@@ -87,7 +89,7 @@
       "id": 9,
       "firstName": "Ram",
       "lastName": "Khan",
-      "address": "89/1 lindsey street",
+      "address": "11/2 sardar ballavbhai road",
       "city": "Kota",
       "state": "Rajasthan",
       "date_added": "2019-05-15"
