@@ -218,6 +218,27 @@ public class AddressBookDatabaseServiceTests {
 			return false;
 	}
 
+	private boolean deleteContactInJsonServer(String firstname, String lastname, AddressBookDirectory dir) {
+		List<BookAndContactDetails> list = dir.getContactAndBookDetailsByName(firstname, lastname);
+		Map<String, Boolean> deleteStatus = new HashMap<>();
+		list.forEach(details -> {
+			deleteStatus.put(details.getContact().getFirstName(), false);
+		});
+		list.forEach(details -> {
+			RequestSpecification request = RestAssured.given();
+			request.header("Content-type", "application/json");
+			Response response = request.delete("/" + details.getBookName() + "/" + details.getContact().getId());
+			if (response.getStatusCode() == 200) {
+				deleteStatus.put(details.getContact().getFirstName(), true);
+			}
+		});
+		dir.deleteContactsInDirectory(firstname, lastname);
+		if (!deleteStatus.containsValue(false))
+			return true;
+		else
+			return false;
+	}
+
 	@Test
 	public void givenContactDetailsInJsonServer_whenRetrieved_shouldReturnNoOfCounts() {
 		Map<String, List<Contact>> data = getContacts();
@@ -272,6 +293,18 @@ public class AddressBookDatabaseServiceTests {
 		boolean result = updateEntriesInJsonServer("ram", "khan", "address", "11/2 sardar ballavbhai road", dir);
 		dir.printDirectory(IOService.CONSOLE_IO);
 		Assert.assertTrue(result);
+	}
+
+	@Test
+	public void givenContactDetailsInJsonServer_whenDeletedContact_shouldSyncWithJsonServer() {
+		Map<String, List<Contact>> data = getContacts();
+		AddressBookDirectory dir = new AddressBookDirectory();
+		dir.setNewAddressBook(data);
+		dir.printDirectory(IOService.CONSOLE_IO);
+		boolean result = deleteContactInJsonServer("nitin", "rana", dir);
+		dir.printDirectory(IOService.CONSOLE_IO);
+		Assert.assertTrue(result);
+		Assert.assertEquals(9, dir.getCountOFEntries());
 	}
 
 }

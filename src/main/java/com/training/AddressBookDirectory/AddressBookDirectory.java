@@ -343,4 +343,11 @@ public class AddressBookDirectory {
 		}
 		return list;
 	}
+
+	public void deleteContactsInDirectory(String firstname, String lastname) {
+		List<BookAndContactDetails> bookAndContactList = this.getContactAndBookDetailsByName(firstname, lastname);
+		bookAndContactList.forEach(details -> {
+			this.addressBookDirectory.get(details.getBookName()).getContact().remove(details.getContact());
+		});
+	}
 }
